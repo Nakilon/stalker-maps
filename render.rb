@@ -22,4 +22,9 @@ Image = Struct.new :image do
       :over, x: x + 7, y: y - 5
     ]
   end
+  def marker x, y, text, dpi = 100
+    text = Vips::Image.text text, width: image.width - x - 7, dpi: dpi, font: "Verdana Bold"
+    text = text.new_from_image([192, 192, 192]).copy(interpretation: :srgb).bandjoin(text)
+    [text, :over, x: x - text.width / 2, y: y - 5]
+  end
 end
