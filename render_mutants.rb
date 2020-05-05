@@ -44,8 +44,8 @@ until names.empty?
     group.push current = queue.shift
     n1, t1, _, xy1 = *current
     a, b = names.partition do |n2, t2, _, xy2|
-      n1 == n2 && (xy1[:y] + t1.width > xy2[:y]) &&
-                  (xy1[:y] < t2.width + xy2[:y]) &&
+      n1 == n2 && (xy1[:y] + t1.height > xy2[:y]) &&
+                  (xy1[:y] < t2.height + xy2[:y]) &&
                   (xy1[:x] + t1.width > xy2[:x]) &&
                   (xy1[:x] < t2.width + xy2[:x])
     end
