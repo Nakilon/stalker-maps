@@ -7,6 +7,8 @@ end.compact
 puts "MUTANTS: #{mutants.size}"
 abort if mutants.size < 100
 
+
+[%w{ rus Всего: }, %w{ eng Total: }].each do |locale, total|
 image = Image.new Vips::Image.new_from_file ARGV[1]
 
 # data
@@ -16,23 +18,28 @@ names = mutants.map do |obj|
   fail if obj["community_index"]
   x, _, y = obj["position"]
   fail if obj["character_name"]
-  name = obj["visual_name"].split("\\")[1]
-  name = "boar" if name == "mutant_boar"
-  name = "!#{name}!" if obj["story_id"]
-  [name, *image.marker(fx(x), fy(y), name, 80)] #if obj["story_id"]
+  require "nokogiri"
+  name = if localized = Nokogiri::XML::DocumentFragment.parse(File.read("out/config/text/#{locale}/stable_statistic_caption.xml", encoding: "CP1251").encode("utf-8", "cp1251")).at_css(
+    "##{obj["section_name"]}"
+  )
+    YAML.load localized.text.strip
+  else
+    obj["section_name"]
+  end
+  [name, *image.marker(fx(x), fy(y), name, 80)]
 end.compact
 
 # legend
-strings = File.read("out/config/text/eng/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
+strings = File.read("out/config/text/#{locale}/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
 image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, 50, strings.fetch(ARGV[2]), 250)).flatten
 image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, image.image.height - 50, "nakilon@gmail.com")).flatten
 x = y = 50
 require "mll"
-image.image = image.image.composite2(*image.prepare_text(x + 10, y, "Total:", 160)).flatten
-y += 18
-MLL::tally[(names.map(&:first) - %w{!flesh!})].sort_by(&:last).reverse.each do |m, c|
-  y += 12
-  image.image = image.image.composite2(*image.prepare_text(x + 10, y, "#{c}x #{m}", 80)).flatten
+image.image = image.image.composite2(*image.prepare_text(x + 10, y, total, 160)).flatten
+y += 20
+MLL::tally[names.map(&:first)].sort_by(&:last).reverse.each do |m, c|
+  y += 15
+  image.image = image.image.composite2(*image.prepare_text(x + 10, y, "#{c} x #{m}", 80)).flatten
 end
 
 groups = []
@@ -60,7 +67,7 @@ names = groups.map do |group|
   # TODO: maybe somehow do not init Vips object until here
   x = group.map(&:last).sum{ |_| _[:x] } / group.size
   y = group.map(&:last).sum{ |_| _[:y] } / group.size
-  text, mode, xy = *image.marker(0, 0, "#{group.size}x #{group.first.first}#{?e if "flesh" == group.first.first}s", 80)
+  text, mode, xy = *image.marker(0, 0, "#{group.size}x #{group.first.first}", 80)
   [text, mode, x: x, y: y]
 end
 puts "#{groups.sum &:size} => #{names.size}"
@@ -70,17 +77,20 @@ begin
   names.permutation(2) do |name1, name2|
     t1, _, xy1 = *name1
     t2, _, xy2 = *name2
-    next unless (xy1[:y]...xy1[:y]+t1.height).include?(xy2[:y]) && (
-                (xy1[:x]...xy1[:x]+t1.width ).include?(xy2[:x]) ||
-                (xy1[:x]...xy1[:x]+t1.width).include?(xy2[:x]+t2.width))
+    next unless (xy1[:y] + t1.height > xy2[:y]) &&
+                (xy1[:y]             < xy2[:y]) &&
+                (xy1[:x] < t2.width  + xy2[:x]) &&
+                (xy2[:x] < t1.width  + xy1[:x])
     moved += 1
     name1[2][:y] -= 1
     name2[2][:y] += 1
   end
-  # puts "#{moved} texts moved"
+  puts "#{moved} texts moved"
 end until moved.zero?
 names.each{ |name| image.image = image.image.composite2(*name).flatten }
 
-image.image.write_to_file "rendered/#{ARGV[2]}_mutants.png"
+image.image.write_to_file "rendered/#{ARGV[2]}_mutants_#{locale}.png"
+end
+
 
 puts "OK"
