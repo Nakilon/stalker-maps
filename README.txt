@@ -6,3 +6,10 @@ $ ruby render_npcs.rb l01_1.yaml bg_l01.jpg l01_escape
 $ ruby render_mutants.rb l01_1.yaml bg_l01.jpg l01_escape
 $ ruby render_anomalies.rb l01_1.yaml bg_l01.jpg l01_escape
 $ tree rendered
+
+v the most outdated code v
+render_npcs.rb
+render_mutants.rb
+render_anomalies.rb
+render_artifacts.rb
+^ the least outdated code ^

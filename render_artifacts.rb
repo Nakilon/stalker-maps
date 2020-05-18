@@ -40,11 +40,11 @@ abort if objs.size < 10
   image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, image.image.height - 50, "nakilon@gmail.com")).flatten
   x = y = 50
   image.image = image.image.composite2(*image.prepare_text(x + 10, y, total, 160)).flatten
-  y += 18
+  y += 20
   require "mll"
   MLL::tally[names.map(&:first)].sort_by(&:last).reverse.each do |m, c|
-    y += 12
-    image.image = image.image.composite2(*image.prepare_text(x + 10, y, "#{c}x #{m}", 80)).flatten
+    y += 15
+    image.image = image.image.composite2(*image.prepare_text(x + 10, y, "#{c} x #{m}", 80)).flatten
   end
 
   begin

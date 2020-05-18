@@ -8,10 +8,11 @@ end.compact
 puts "ANOMALIES: #{objs.size}"
 abort if objs.size < 150
 
+
 image = Image.new Vips::Image.new_from_file ARGV[1]
 
 short = {
-  # "mosquitobald" => "M",
+  # "mosquitobald" => "M",    # TODO: maybe use some Unicode dot?
   "minefield" => "F",
   "radioactive" => "R",
   "witchesgalantine" => "W",
@@ -34,7 +35,6 @@ strings = File.read("out/config/text/eng/string_table_general.xml", encoding: "C
 image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, 50, strings.fetch(ARGV[2]), 250)).flatten
 image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, image.image.height - 50, "nakilon@gmail.com")).flatten
 x = y = 50
-require "mll"
 image.image = image.image.draw_circle [192, 192, 192], x, y, 2, fill: true
 image.image = image.image.composite2(*image.prepare_text(x + 10, y, "mosquitobald", 80)).flatten
 short.each do |long, short|
@@ -62,5 +62,6 @@ end until moved.zero?
 names.each{ |_, *name| image.image = image.image.composite2(*name).flatten }
 
 image.image.write_to_file "rendered/#{ARGV[2]}_anomalies.png"
+
 
 puts "OK"
