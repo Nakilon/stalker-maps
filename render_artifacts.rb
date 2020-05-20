@@ -66,7 +66,7 @@ abort if objs.size < 10
 
   names.each{ |_, _, *name| image.image = image.image.composite2(*name).flatten }
 
-  image.image.write_to_file "rendered/#{ARGV[2]}_artifacts_#{locale}.png"
+  image.image.write_to_file "rendered/#{ARGV[2]}_artifacts_#{locale}.jpg", Q: 95
 end
 
 puts "OK"

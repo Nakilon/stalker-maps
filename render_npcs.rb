@@ -77,7 +77,7 @@ begin
 end while moved
 names.each{ |name| image.image = image.image.composite2(*name).flatten }
 
-image.image.write_to_file "rendered/#{ARGV[2]}_npcs.png"
+image.image.write_to_file "rendered/#{ARGV[2]}_npcs.jpg", Q: 95
 
 
 puts "OK"

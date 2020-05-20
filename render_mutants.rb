@@ -113,7 +113,7 @@ abort if mutants.size < 100
   end until moved.zero?
   names.each{ |name| image.image = image.image.composite2(*name).flatten }
 
-  image.image.write_to_file "rendered/#{ARGV[2]}_mutants_#{locale}.png"
+  image.image.write_to_file "rendered/#{ARGV[2]}_mutants_#{locale}.jpg", Q: 95
 end
 
 

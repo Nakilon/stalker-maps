@@ -61,7 +61,7 @@ end until moved.zero?
 
 names.each{ |_, *name| image.image = image.image.composite2(*name).flatten }
 
-image.image.write_to_file "rendered/#{ARGV[2]}_anomalies.png"
+image.image.write_to_file "rendered/#{ARGV[2]}_anomalies.jpg", Q: 95
 
 
 puts "OK"
