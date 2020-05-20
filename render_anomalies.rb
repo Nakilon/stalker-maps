@@ -9,7 +9,7 @@ puts "ANOMALIES: #{objs.size}"
 abort if objs.size < 150
 
 
-image = Image.new Vips::Image.new_from_file ARGV[1]
+image = Render.prepare_image
 
 short = {
   # "mosquitobald" => "M",    # TODO: maybe use some Unicode dot?
@@ -32,7 +32,7 @@ end.compact
 
 # legend
 strings = File.read("out/config/text/eng/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, 50, strings.fetch(ARGV[2]), 250)).flatten
+image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, 50, strings.fetch(ARGV[1]), 250)).flatten
 image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, image.image.height - 50, "nakilon@gmail.com")).flatten
 x = y = 50
 image.image = image.image.draw_circle [192, 192, 192], x, y, 2, fill: true
@@ -61,7 +61,7 @@ end until moved.zero?
 
 names.each{ |_, *name| image.image = image.image.composite2(*name).flatten }
 
-image.image.write_to_file "rendered/#{ARGV[2]}_anomalies.jpg", Q: 95
+image.image.write_to_file "rendered/#{ARGV[1]}_anomalies.jpg", Q: 95
 
 
 puts "OK"

@@ -43,6 +43,8 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
     when /\A(custom_data) = (cond = 0\.2)\z/ ; [$1, $2]
     when /\A(custom_data) = (\[dont_spawn_character_supplies\])\z/
     when /\Asquad_id = \S/
+    when /\Avisual_flags = 0x1\z/
+    when /\Aspawned_obj = (\d+(, \d+)*)?\z/
     when "upd:quaternion = -1, -1, 1, -1"
     when /\A[a-z_:]+ = ?\z/
     when /\A([a-z_:]+) = (\S.*)/
@@ -51,10 +53,8 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
         bones_mask bbox_min bbox_max upd:timestamp s_gameid physic_type fixed_bones main_color_animator glow_texture ambient_texture
         equipment_preferences main_weapon_preferences
         s_rp upd:num_items upd:creature_flags artefact_position_offset dest_graph_point
-        duration_end
-        motion_name engine_sound
-        main_color
-      }.include? $1
+        duration_end motion_name engine_sound main_color
+      }.include? $1 # not interesting?
       [$1, case v = $2
       when /\A\d+\z/ ; v.to_i
       when /\A-?\d+\.\d+\z/ ; v.to_f
@@ -94,8 +94,10 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
   end
 end - [{}]
 
+require "yaml"
+puts YAML.dump all
+
 require "mll"
 PP.pp MLL::tally[all.flat_map &:keys].sort_by(&:last).first(15), STDERR
 
-require "yaml"
-puts YAML.dump all
+STDERR.puts "OK"

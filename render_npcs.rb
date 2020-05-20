@@ -12,13 +12,13 @@ end.compact
 puts "NPC: #{npcs.size}"
 abort if npcs.size < 50
 
-image = Image.new Vips::Image.new_from_file ARGV[1]
+image = Render.prepare_image
 
 # legend
-colors = [p,p,p,[192,192,192],p,[0,150,0],p,p,p,p,[255,0,0]]
+colors = [p,p,p,[192,192,192],p,[0,150,0],p,p,[192,0,0],p,[192,192,255]]
 communities = File.read("out/config/creatures/game_relations.ltx", encoding: "CP1251").encode("utf-8", "cp1251")[/^communities\s*=\s*(.+)/, 1].split(?,).each_slice(2).map(&:first).map &:strip
 strings = File.read("out/config/text/rus/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, 50, strings.fetch(ARGV[2]), 250)).flatten
+image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, 50, strings.fetch(ARGV[1]), 250)).flatten
 image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, image.image.height - 50, "nakilon@gmail.com")).flatten
 x = y = 50
 image.image = image.image.draw_circle colors[3], x, y, 3, fill: true
@@ -44,7 +44,7 @@ image.image = image.image.composite2(*image.prepare_text(x + 10, y, "мертв"
 names = npcs.map do |npc|
   health = npc["health"] || npc["upd:health"]
   fail npc["id"].to_s unless health
-  fail unless color = colors[npc["community_index"]]
+  fail npc["community_index"].to_s unless color = colors[npc["community_index"]]
   x, _, y = npc["position"]
   draw_name = !!npc["story_id"]
   if health == 0
@@ -77,7 +77,7 @@ begin
 end while moved
 names.each{ |name| image.image = image.image.composite2(*name).flatten }
 
-image.image.write_to_file "rendered/#{ARGV[2]}_npcs.jpg", Q: 95
+image.image.write_to_file "rendered/#{ARGV[1]}_npcs.jpg", Q: 95
 
 
 puts "OK"

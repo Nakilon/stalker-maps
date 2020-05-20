@@ -9,7 +9,7 @@ abort if mutants.size < 100
 
 
 [%w{ rus Всего: }, %w{ eng Total: }].each do |locale, total|
-  image = Image.new Vips::Image.new_from_file ARGV[1]
+  image = Render.prepare_image
 
   color = lambda do |name|
     hsv_to_rgb = lambda do |h, s, v|
@@ -55,7 +55,7 @@ abort if mutants.size < 100
 
   # legend
   strings = File.read("out/config/text/#{locale}/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-  image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, 50, strings.fetch(ARGV[2]), 250)).flatten
+  image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, 50, strings.fetch(ARGV[1]), 250)).flatten
   image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, image.image.height - 50, "nakilon@gmail.com")).flatten
   x = y = 50
   require "mll"
@@ -113,7 +113,7 @@ abort if mutants.size < 100
   end until moved.zero?
   names.each{ |name| image.image = image.image.composite2(*name).flatten }
 
-  image.image.write_to_file "rendered/#{ARGV[2]}_mutants_#{locale}.jpg", Q: 95
+  image.image.write_to_file "rendered/#{ARGV[1]}_mutants_#{locale}.jpg", Q: 95
 end
 
 
