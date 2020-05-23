@@ -13,8 +13,9 @@ image = Render.prepare_image
 
 short = {
   # "mosquitobald" => "M",    # TODO: maybe use some Unicode dot?
-  "minefield" => "F",
-  "radioactive" => "R",
+  "mincer" => "M",
+  "minefield" => "ſ",
+  "radioactive" => "☢",
   "witchesgalantine" => "W",
 }
 
@@ -27,19 +28,20 @@ names = objs.map do |obj|
     next
   end
   name = short.fetch name, name
-  [name, *image.marker(fx(x), fy(y), name, 80)]
+  [name, *image.marker(fx(x), fy(y), name)]
 end.compact
 
 # legend
 strings = File.read("out/config/text/eng/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, 50, strings.fetch(ARGV[1]), 250)).flatten
-image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, image.image.height - 50, "nakilon@gmail.com")).flatten
+image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, 40, strings.fetch(ARGV[1]), 250)).flatten
+image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, image.image.height - 40, "nakilon@gmail.com")).flatten
 x = y = 50
 image.image = image.image.draw_circle [192, 192, 192], x, y, 2, fill: true
-image.image = image.image.composite2(*image.prepare_text(x + 10, y, "mosquitobald", 80)).flatten
+image.image = image.image.composite2(*image.prepare_text(x + 10, y, "mosquitobald")).flatten
 short.each do |long, short|
-  y += 14
-  image.image = image.image.composite2(*image.prepare_text(x - 10, y, "#{short}  #{long}", 80)).flatten
+  next unless names.assoc short
+  y += 20
+  image.image = image.image.composite2(*image.prepare_text(x - 10, y, "#{short}  #{long}")).flatten
 end
 
 begin

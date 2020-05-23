@@ -16,6 +16,10 @@ $ ruby render_npcs.rb 1/l01_escape.yaml l01_escape
 $ ruby render_mutants.rb 1/l01_escape.yaml l01_escape
 $ ruby render_anomalies.rb 1/l01_escape.yaml l01_escape
 $ ruby render_artifacts.rb 1/l01_escape.yaml l01_escape
+$ ruby render_npcs.rb 1/l02_garbage.yaml l02_garbage
+$ ruby render_mutants.rb 1/l02_garbage.yaml l02_garbage
+$ ruby render_anomalies.rb 1/l02_garbage.yaml l02_garbage
+$ ruby render_artifacts.rb 1/l02_garbage.yaml l02_garbage
 $ tree rendered
 
 v the most outdated code v
