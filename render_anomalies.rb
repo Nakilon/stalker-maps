@@ -51,12 +51,17 @@ begin
     n2, t2, _, xy2 = *name2
     next if n1.size == 1 || n2.size == 1
     next unless (xy1[:y] + t1.height > xy2[:y]) &&
-                (xy1[:y]             < xy2[:y]) &&
+                (xy2[:y] + t2.height > xy1[:y]) &&
                 (xy1[:x] + t1.width  > xy2[:x]) &&
-                (xy1[:x] < t2.width  + xy2[:x])
+                (xy2[:x] + t2.width  > xy1[:x])
     moved += 1
-    name1[3][:y] -= 1
-    name2[3][:y] += 1
+    if xy1[:y] + t1.height / 2.0 > xy2[:y] + t2.height / 2.0
+      name1[3][:y] += 1
+      name2[3][:y] -= 1
+    else
+      name1[3][:y] -= 1
+      name2[3][:y] += 1
+    end
   end
   puts "#{moved} texts moved"
 end until moved.zero?

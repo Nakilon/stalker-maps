@@ -87,7 +87,6 @@ abort if objs.size < Fixtures.fetch(ARGV[1])[:ARTIFACTS]
     names.combination(2) do |name1, name2|
       _, n1, t1, _, xy1 = *name1
       _, n2, t2, _, xy2 = *name2
-      next if n1.size == 1 || n2.size == 1
       next unless (xy1[:y] + t1.height > xy2[:y]) &&
                   (xy2[:y] + t2.height > xy1[:y]) &&
                   (xy1[:x] + t1.width  > xy2[:x]) &&
