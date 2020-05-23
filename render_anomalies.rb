@@ -12,7 +12,6 @@ abort if objs.size < 150
 image = Render.prepare_image
 
 short = {
-  # "mosquitobald" => "M",    # TODO: maybe use some Unicode dot?
   "mincer" => "M",
   "minefield" => "ſ",
   "radioactive" => "☢",
@@ -37,6 +36,7 @@ image.image = image.image.composite2(*image.prepare_text(image.image.width - 240
 image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, image.image.height - 40, "nakilon@gmail.com")).flatten
 x = y = 50
 image.image = image.image.draw_circle [192, 192, 192], x, y, 2, fill: true
+# TODO: maybe use some Unicode dot?
 image.image = image.image.composite2(*image.prepare_text(x + 10, y, "mosquitobald")).flatten
 short.each do |long, short|
   next unless names.assoc short

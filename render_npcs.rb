@@ -13,33 +13,9 @@ puts "NPC: #{npcs.size}"
 abort if npcs.size < 50
 
 image = Render.prepare_image
-
-# legend
 colors = [p,p,p,[192,192,192],p,[0,150,0],p,p,[192,0,0],p,[192,128,128]]
-communities = File.read("out/config/creatures/game_relations.ltx", encoding: "CP1251").encode("utf-8", "cp1251")[/^communities\s*=\s*(.+)/, 1].split(?,).each_slice(2).map(&:first).map &:strip
-strings = File.read("out/config/text/rus/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, 50, strings.fetch(ARGV[1]), 250)).flatten
-image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, image.image.height - 50, "nakilon@gmail.com")).flatten
-x = y = 50
-image.image = image.image.draw_circle colors[3], x, y, 3, fill: true
-image.image = image.image.composite2(*image.prepare_text(x + 10, y, strings.fetch(communities[3]), 80)).flatten
-y += 12
-image.image = image.image.draw_circle colors[5], x, y, 3, fill: true
-image.image = image.image.composite2(*image.prepare_text(x + 10, y, strings.fetch(communities[5]), 80)).flatten
-y += 12
-image.image = image.image.draw_circle colors[10], x, y, 3, fill: true
-image.image = image.image.composite2(*image.prepare_text(x + 10, y, strings.fetch(communities[10]), 80)).flatten
-y += 24
-image.image = image.image.draw_circle [192,192,192], x, y, 3, fill: true
-image.image = image.image.composite2(*image.prepare_text(x + 10, y, "жив", 80)).flatten
-y += 12
-image.image = image.image.draw_circle [192,192,192], x, y, 3
-image.image = image.image.composite2(*image.prepare_text(x + 10, y, "ранен", 80)).flatten
-y += 12
-image.image = image.image.draw_line [192,192,192], x - 3, y - 3, x + 3, y + 3
-image.image = image.image.draw_line [192,192,192], x - 3, y + 3, x + 3, y - 3
-image.image = image.image.composite2(*image.prepare_text(x + 10, y, "мертв", 80)).flatten
 
+names_other = YAML.load_file(ARGV[2]).map{ |item| item["character_name"] }
 # data
 names = npcs.map do |npc|
   health = npc["health"] || npc["upd:health"]
@@ -60,7 +36,7 @@ names = npcs.map do |npc|
     draw_name = true
   else ; fail
   end
-  image.prepare_text(fx(x), fy(y), %w{ esc_tutorial_dead_novice esc_factory_prisoner_guard }.include?(npc["name"]) ? npc["name"] : npc["character_name"], 80) if draw_name && npc["name"] != "esc_novice_attacker3"
+  image.prepare_text(fx(x), fy(y), names_other.include?(npc["character_name"]) ? npc["character_name"] : npc["name"], 80) if draw_name && npc["name"] != "esc_novice_attacker3"
 end.compact
 begin
   moved = false
@@ -76,6 +52,29 @@ begin
   end
 end while moved
 names.each{ |name| image.image = image.image.composite2(*name).flatten }
+
+# legend
+communities = File.read("out/config/creatures/game_relations.ltx", encoding: "CP1251").encode("utf-8", "cp1251")[/^communities\s*=\s*(.+)/, 1].split(?,).each_slice(2).map(&:first).map &:strip
+strings = File.read("out/config/text/rus/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
+image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, 50, strings.fetch(ARGV[1]), 250)).flatten
+image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, image.image.height - 50, "nakilon@gmail.com")).flatten
+x, y = 50, 38
+[3, 5, 8, 10].each do |index|
+  next unless npcs.any?{ |npc| index == npc["community_index"] }
+  y += 15
+  image.image = image.image.draw_circle colors[index], x, y, 3, fill: true
+  image.image = image.image.composite2(*image.prepare_text(x + 10, y, strings.fetch(communities[index]), 80)).flatten
+end
+y += 25
+image.image = image.image.draw_circle [192,192,192], x, y, 3, fill: true
+image.image = image.image.composite2(*image.prepare_text(x + 10, y + 2, "жив", 80)).flatten
+y += 15
+image.image = image.image.draw_circle [192,192,192], x, y, 3
+image.image = image.image.composite2(*image.prepare_text(x + 10, y + 2, "ранен", 80)).flatten
+y += 15
+image.image = image.image.draw_line [192,192,192], x - 3, y - 3, x + 3, y + 3
+image.image = image.image.draw_line [192,192,192], x - 3, y + 3, x + 3, y - 3
+image.image = image.image.composite2(*image.prepare_text(x + 10, y + 2, "мертв", 80)).flatten
 
 image.image.write_to_file "rendered/#{ARGV[1]}_npcs.jpg", Q: 95
 

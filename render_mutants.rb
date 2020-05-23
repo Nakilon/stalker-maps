@@ -5,7 +5,7 @@ mutants = ALL.select do |item|
   true
 end.compact
 puts "MUTANTS: #{mutants.size}"
-abort if mutants.size < 100
+abort if mutants.size < Fixtures.fetch(ARGV[1])[:MUTANTS]
 
 
 [%w{ rus Всего: }, %w{ eng Total: }].each do |locale, total|
@@ -55,8 +55,8 @@ abort if mutants.size < 100
 
   # legend
   strings = File.read("out/config/text/#{locale}/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-  image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, 50, strings.fetch(ARGV[1]), 250)).flatten
-  image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, image.image.height - 50, "nakilon@gmail.com")).flatten
+  image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, 40, strings.fetch(ARGV[1]), 250)).flatten
+  image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, image.image.height - 40, "nakilon@gmail.com")).flatten
   x = y = 50
   require "mll"
   image.image = image.image.composite2(*image.prepare_text(x + 10, y, total, 160)).flatten
@@ -91,7 +91,7 @@ abort if mutants.size < 100
     # TODO: maybe somehow do not init Vips object until here
     x = group.map(&:last).sum{ |_| _[:x] } / group.size
     y = group.map(&:last).sum{ |_| _[:y] } / group.size
-    text, mode, xy = *image.marker(0, 0, "#{group.size}x #{group.first[0]}", 80, *color[group.first[1]])
+    text, mode, xy = *image.marker(x, y, "#{group.size}x #{group.first[0]}", 80, *color[group.first[1]])
     [text, mode, x: x, y: y]
   end
   puts "#{groups.sum &:size} => #{names.size}"
@@ -102,12 +102,17 @@ abort if mutants.size < 100
       t1, _, xy1 = *name1
       t2, _, xy2 = *name2
       next unless (xy1[:y] + t1.height > xy2[:y]) &&
-                  (xy1[:y]             < xy2[:y]) &&
-                  (xy1[:x] < t2.width  + xy2[:x]) &&
-                  (xy2[:x] < t1.width  + xy1[:x])
+                  (xy2[:y] + t2.height > xy1[:y]) &&
+                  (xy1[:x] + t1.width  > xy2[:x]) &&
+                  (xy2[:x] + t2.width  > xy1[:x])
       moved += 1
-      name1[2][:y] -= 1
-      name2[2][:y] += 1
+      if xy1[:y] + t1.height / 2.0 > xy2[:y] + t2.height / 2.0
+        name1[2][:y] += 1
+        name2[2][:y] -= 1
+      else
+        name1[2][:y] -= 1
+        name2[2][:y] += 1
+      end
     end
     puts "#{moved} texts moved"
   end until moved.zero?
