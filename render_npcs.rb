@@ -56,8 +56,8 @@ names.each{ |name| image.image = image.image.composite2(*name).flatten }
 # legend
 communities = File.read("out/config/creatures/game_relations.ltx", encoding: "CP1251").encode("utf-8", "cp1251")[/^communities\s*=\s*(.+)/, 1].split(?,).each_slice(2).map(&:first).map &:strip
 strings = File.read("out/config/text/rus/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, 50, strings.fetch(ARGV[1]), 250)).flatten
-image.image = image.image.composite2(*image.prepare_text(image.image.width - 250, image.image.height - 50, "nakilon@gmail.com")).flatten
+image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, 40, strings.fetch(ARGV[1]), 250)).flatten
+image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, image.image.height - 40, "nakilon@gmail.com")).flatten
 x, y = 50, 38
 [3, 5, 8, 10].each do |index|
   next unless npcs.any?{ |npc| index == npc["community_index"] }

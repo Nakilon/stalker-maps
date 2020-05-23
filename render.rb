@@ -54,8 +54,8 @@ module Render
         [text, :over, x: x - text.width / 2, y: y - 5]
       end
     end.new case ARGV[1]
-      when "l01_escape" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG]).flatten
-      when "l02_garbage" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG]).flatten.resize 2, vscale: 2, kernel: :lanczos2
+      when "l01_escape" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).flatten
+      when "l02_garbage" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).resize 2, vscale: 2, kernel: :lanczos2
     end
   end
 end
