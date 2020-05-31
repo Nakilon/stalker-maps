@@ -7,7 +7,8 @@ treasures = File.read("out/config/misc/treasure_manager.ltx").gsub("\r\n", "\n")
   [story_id.to_i, [description, items.split(", ").grep(/\Aaf_[a-z_-]+\z/).tap(&assert_empty)]]
 end.compact.to_h
 
-objs = ALL.reject do |obj|
+(objs, names_not_localized), *rest = [ALL, *ARGV[2,5].map(&YAML.method(:load_file))].map do |_|
+  objs = _.reject do |obj|
   next (fail if obj.to_s["af_"]) if treasures.include? obj["story_id"]
   next true unless obj.to_s["af_"]
   next if obj["section_name"][/\Aaf_/]
@@ -26,10 +27,7 @@ objs = ALL.reject do |obj|
   else
     fail
   end
-end.compact
-puts "ARTIFACTS: #{objs.size}"
-abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if objs.size < Fixtures.fetch(ARGV[1])[:ARTIFACTS]
-
+  end.compact
   names_not_localized = objs.map do |obj|
     x, _, y = obj["position"]
     require "nokogiri"
@@ -50,6 +48,11 @@ abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if objs.size < Fixtures.fetch(A
     end
     [name_s, name_p, fill, x, y, size, color]
   end
+  [objs, names_not_localized]
+end
+puts "ARTIFACTS: #{objs.size}"
+abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if objs.size < Fixtures.fetch(ARGV[1])[:ARTIFACTS]
+
 [%w{ rus в Всего: секрет не }, %w{ eng in\ a Total: secret not\ a }].each do |locale, word, total, stash, not_a|
   image = Render.prepare_image
 
