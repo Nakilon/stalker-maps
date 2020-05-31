@@ -33,35 +33,38 @@ abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if objs.size < Fixtures.fetch(A
 [%w{ rus в Всего: секрет не }, %w{ eng in\ a Total: secret not\ a }].each do |locale, word, total, stash, not_a|
   image = Render.prepare_image
 
-  localize = lambda do |name|
-    YAML.load Nokogiri::XML(File.read "out/config/text/#{locale}/string_table_enc_zone.xml").at_css("##{
-      File.read("out/config/misc/artefacts.ltx", encoding: "CP1251").encode("utf-8", "cp1251").scan(/^\[([^\]]+).+\n(?:(?:[^\[\n].*)?\n)*inv_name\s*=\s*(\S+)/).to_h.fetch name
-    }").text.strip
-  end
   # data
   names = objs.map do |obj|
     x, _, y = obj["position"]
     require "nokogiri"
     name_s, name_p, size, color = if obj["section_name"][/\Aaf_/]
       image.image = image.image.draw_circle [255, 255, 255], fx(x), fy(y), 2, fill: true
-      [obj["section_name"], ->_{_}, 95]
+      [obj["section_name"], ->_,__,___{_}, 95]
     elsif treasures.include? obj["story_id"]
       image.image = image.image.draw_circle [255, 255, 255], fx(x), fy(y), 2
-      [treasures[obj["story_id"]][1], ->_{ "#{_.join ", "} (\"#{
-        Nokogiri::XML(File.read "out/config/text/#{locale}/stable_treasure_manager.xml").at_css("##{treasures[obj["story_id"]][0]}").text.strip
+      [treasures[obj["story_id"]][1], ->_,__,___{ "#{_.join ", "} (\"#{
+        Nokogiri::XML(File.read "out/config/text/#{__}/stable_treasure_manager.xml").at_css("##{treasures[obj["story_id"]][0]}").text.strip
       }\")".tap do |s|
         s.gsub!(/(\b\S.{25}\S*) (?=....)/, "\\1\n") if s.size >= 50
       end }, 70, [[160, 160, 160]]]
     else
       image.image = image.image.draw_circle [255, 255, 255], fx(x), fy(y), 2, fill: true
       [*case obj["custom_data"].size
-      when 1 ; [obj["custom_data"][0][1][1][/\S+$/], ->_{ "#{_} (#{word} #{obj["custom_data"][0][1][0][/\S+$/]})" } ]
-      when 2 ; ["af_cristall_flower",                ->_{ "#{_} (#{word} #{obj["section_name"]})" }                 ]
+      when 1 ; [obj["custom_data"][0][1][1][/\S+$/], ->_,__,___{ "#{_} (#{___} #{obj["custom_data"][0][1][0][/\S+$/]})" } ]
+      when 2 ; ["af_cristall_flower",                ->_,__,___{ "#{_} (#{___} #{obj["section_name"]})" }                 ]
       else ; fail
       end, 85]
     end
+    [name_s, name_p, x, y, size, color]
+  end
+  localize = lambda do |name|
+    YAML.load Nokogiri::XML(File.read "out/config/text/#{locale}/string_table_enc_zone.xml").at_css("##{
+      File.read("out/config/misc/artefacts.ltx", encoding: "CP1251").encode("utf-8", "cp1251").scan(/^\[([^\]]+).+\n(?:(?:[^\[\n].*)?\n)*inv_name\s*=\s*(\S+)/).to_h.fetch name
+    }").text.strip
+  end
+  names.map! do |name_s, name_p, x, y, size, color|
     name_s = name_s.is_a?(String) ? localize[name_s] : name_s.map(&localize)
-    [name_s, name_p[name_s], *image.prepare_text(fx(x), fy(y), name_p[name_s], size, *color)]
+    [name_s, name_p[name_s, locale, word], *image.prepare_text(fx(x), fy(y), name_p[name_s, locale, word], size, *color)]
   end
 
   # legend
