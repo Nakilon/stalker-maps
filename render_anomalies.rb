@@ -6,7 +6,7 @@ objs = ALL.select do |obj|
   db.key? obj["section_name"]
 end.compact
 puts "ANOMALIES: #{objs.size}"
-abort if objs.size < 150
+abort "< #{Fixtures.fetch(ARGV[1])[:ANOMALIES]}" if objs.size < Fixtures.fetch(ARGV[1])[:ANOMALIES]
 
 
 image = Render.prepare_image
@@ -16,6 +16,7 @@ short = {
   "minefield" => "ſ",
   "radioactive" => "☢",
   "witchesgalantine" => "W",
+  "gravi" => "G",
 }
 
 # data
@@ -32,7 +33,7 @@ end.compact
 
 # legend
 strings = File.read("out/config/text/eng/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, 40, strings.fetch(ARGV[1]), 250)).flatten
+image.image = image.image.composite2(*image.prepare_text(image.image.width - 300, 40, strings.fetch(ARGV[1]), 250)).flatten
 image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, image.image.height - 40, "nakilon@gmail.com")).flatten
 x = y = 50
 image.image = image.image.draw_circle [192, 192, 192], x, y, 2, fill: true

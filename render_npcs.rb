@@ -4,13 +4,14 @@ npcs = ALL.select do |item|
   next unless "stalker" == item["section_name"]
   next if "esc_provodnik" == item["name"]
   if t = item["custom_data"].to_h["spawner"]
-    fail if t.grep(/\Acond = \{\+/).empty?
+    next true unless t.grep(/\Acond = \{-/).empty?
+    fail item.inspect if t.grep(/\Acond = \{+/).empty?
     next unless [["cond = {+tutorial_wounded_start}"], ["cond = {+escape_stalker_help}"]].include? t
   end
   true
 end.compact
 puts "NPC: #{npcs.size}"
-abort if npcs.size < 50
+abort "< #{Fixtures.fetch(ARGV[1])[:NPCS]}" if npcs.size < Fixtures.fetch(ARGV[1])[:NPCS]
 
 image = Render.prepare_image
 colors = [p,p,p,[192,192,192],p,[0,150,0],p,p,[192,0,0],p,[192,128,128]]
@@ -56,7 +57,7 @@ names.each{ |name| image.image = image.image.composite2(*name).flatten }
 # legend
 communities = File.read("out/config/creatures/game_relations.ltx", encoding: "CP1251").encode("utf-8", "cp1251")[/^communities\s*=\s*(.+)/, 1].split(?,).each_slice(2).map(&:first).map &:strip
 strings = File.read("out/config/text/rus/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, 40, strings.fetch(ARGV[1]), 250)).flatten
+image.image = image.image.composite2(*image.prepare_text(image.image.width - 300, 40, strings.fetch(ARGV[1]), 250)).flatten
 image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, image.image.height - 40, "nakilon@gmail.com")).flatten
 x, y = 50, 38
 [3, 5, 8, 10].each do |index|

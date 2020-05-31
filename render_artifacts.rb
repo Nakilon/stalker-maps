@@ -28,9 +28,9 @@ objs = ALL.reject do |obj|
   end
 end.compact
 puts "ARTIFACTS: #{objs.size}"
-abort if objs.size < Fixtures.fetch(ARGV[1])[:ARTIFACTS]
+abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if objs.size < Fixtures.fetch(ARGV[1])[:ARTIFACTS]
 
-[%w{ rus в Всего: тайник не }, %w{ eng in\ a Total: stash not\ a }].each do |locale, word, total, stash, not_a|
+[%w{ rus в Всего: секрет не }, %w{ eng in\ a Total: secret not\ a }].each do |locale, word, total, stash, not_a|
   image = Render.prepare_image
 
   # data
@@ -65,7 +65,7 @@ abort if objs.size < Fixtures.fetch(ARGV[1])[:ARTIFACTS]
 
   # legend
   strings = File.read("out/config/text/#{locale}/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-  image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, 40, strings.fetch(ARGV[1]), 250)).flatten
+  image.image = image.image.composite2(*image.prepare_text(image.image.width - 300, 40, strings.fetch(ARGV[1]), 250)).flatten
   image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, image.image.height - 40, "nakilon@gmail.com")).flatten
   x = y = 50
   image.image = image.image.composite2(*image.prepare_text(x, y, total, 160)).flatten
@@ -101,7 +101,7 @@ abort if objs.size < Fixtures.fetch(ARGV[1])[:ARTIFACTS]
       end
     end
     puts "#{moved} texts moved"
-  end until moved.zero?
+  end until moved.zero? unless ENV["SKIP"]
 
   names.each{ |_, _, *name| image.image = image.image.composite2(*name).flatten }
 

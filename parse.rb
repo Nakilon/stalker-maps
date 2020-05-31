@@ -29,7 +29,7 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
     when /\Aname = clmbl#\d\d?\z/ ; break []
     when "s_gameid = 0x1"
     when /\Abone_\d\d?:[a-z_]+ = \S/
-    when /\Ashape_\d:[a-z_]+ = \S/
+    when /\Ashape_1?\d:[a-z_]+ = \S/
     when /\Ajob_\d\d?:[a-z_]+ = \S/
     when /\Aupd:ammo_ids =( 0, 0)?\z/
     when /\AstateBegin = [\d:]+\z/
@@ -54,7 +54,8 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
         equipment_preferences main_weapon_preferences
         s_rp upd:num_items upd:creature_flags artefact_position_offset dest_graph_point
         duration_end motion_name engine_sound main_color
-      }.include? $1 # not interesting?
+        base_in_restrictors base_out_restrictors
+      }.include? $1
       [$1, case v = $2
       when /\A\d+\z/ ; v.to_i
       when /\A-?\d+\.\d+\z/ ; v.to_f
