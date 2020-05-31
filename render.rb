@@ -5,14 +5,16 @@ Fixtures = {
   "l01_escape" => {
     ALL: 1000,
     ARTIFACTS: 10,
-    BG: "bg_l01.png",
     MUTANTS: 100,
+    BG: "bg_l01.png",
+    FXA: 458, FXB: 1.35, FYA: 1190, FYB: 1.3725,
   },
   "l02_garbage" => {
     ALL: 750,
     ARTIFACTS: 40,
-    BG: "bg_l02.jpg",
     MUTANTS: 40,
+    BG: "bg_l02.jpg",
+    FXA: 810, FXB: 2.65, FYA: 846, FYB: 2.78,
   },
 }
 
@@ -21,22 +23,13 @@ ALL = YAML.load_file ARGV[0]
 puts "ALL: #{ALL.size}"
 abort if ALL.size < Fixtures.fetch(ARGV[1])[:ALL]
 
-case ARGV[1]
-when "l01_escape"
-  def fx x
-    458 + x * 1.35
-  end
-  def fy y
-    1190 - y * 1.3725
-  end
-when "l02_garbage"
-  def fx x
-    810 + x * 2.65
-  end
-  def fy y
-    846 - y * 2.78
-  end
+def fx x
+  Fixtures.fetch(ARGV[1])[:FXA] + x * Fixtures.fetch(ARGV[1])[:FXB]
 end
+def fy y
+  Fixtures.fetch(ARGV[1])[:FYA] - y * Fixtures.fetch(ARGV[1])[:FYB]
+end
+
 module Render
   require "vips"
   def self.prepare_image
