@@ -30,11 +30,7 @@ end.compact
 puts "ARTIFACTS: #{objs.size}"
 abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if objs.size < Fixtures.fetch(ARGV[1])[:ARTIFACTS]
 
-[%w{ rus в Всего: секрет не }, %w{ eng in\ a Total: secret not\ a }].each do |locale, word, total, stash, not_a|
-  image = Render.prepare_image
-
-  # data
-  names = objs.map do |obj|
+  names_not_localized = objs.map do |obj|
     x, _, y = obj["position"]
     require "nokogiri"
     name_s, name_p, fill, size, color = if obj["section_name"][/\Aaf_/]
@@ -54,12 +50,16 @@ abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if objs.size < Fixtures.fetch(A
     end
     [name_s, name_p, fill, x, y, size, color]
   end
+[%w{ rus в Всего: секрет не }, %w{ eng in\ a Total: secret not\ a }].each do |locale, word, total, stash, not_a|
+  image = Render.prepare_image
+
+  # data
   localize = lambda do |name|
     YAML.load Nokogiri::XML(File.read "out/config/text/#{locale}/string_table_enc_zone.xml").at_css("##{
       File.read("out/config/misc/artefacts.ltx", encoding: "CP1251").encode("utf-8", "cp1251").scan(/^\[([^\]]+).+\n(?:(?:[^\[\n].*)?\n)*inv_name\s*=\s*(\S+)/).to_h.fetch name
     }").text.strip
   end
-  names.map! do |name_s, name_p, fill, x, y, size, color|
+  names = names_not_localized.map do |name_s, name_p, fill, x, y, size, color|
     name_s = name_s.is_a?(String) ? localize[name_s] : name_s.map(&localize)
     image.image = image.image.draw_circle [255, 255, 255], fx(x), fy(y), 2, fill: fill
     [name_s, name_p[name_s, locale, word], *image.prepare_text(fx(x), fy(y), name_p[name_s, locale, word], size, *color)]
