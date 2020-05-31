@@ -48,6 +48,13 @@ not_localized, *rest = [ALL, *ARGV[2,5].map(&YAML.method(:load_file))].map do |_
     [name_s, name_p, fill, x, y, size, color]
   end
 end
+not_localized.select! do |name_s, _, fill, x, y, size, color|
+  rest.all? do |another|
+    another.any? do |name_s_, _, fill_, x_, y_, size_, color_|
+      [name_s, fill, size, color_] == [name_s_, fill_, size_, color_] && 10 > Math.hypot(x - x_, y - y_)
+    end
+  end
+end
 puts "ARTIFACTS: #{not_localized.size}"
 abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if not_localized.size < Fixtures.fetch(ARGV[1])[:ARTIFACTS]
 
