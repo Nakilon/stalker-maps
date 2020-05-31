@@ -7,8 +7,8 @@ treasures = File.read("out/config/misc/treasure_manager.ltx").gsub("\r\n", "\n")
   [story_id.to_i, [description, items.split(", ").grep(/\Aaf_[a-z_-]+\z/).tap(&assert_empty)]]
 end.compact.to_h
 
-(objs, names_not_localized), *rest = [ALL, *ARGV[2,5].map(&YAML.method(:load_file))].map do |_|
-  objs = _.reject do |obj|
+not_localized, *rest = [ALL, *ARGV[2,5].map(&YAML.method(:load_file))].map do |_|
+  _.reject do |obj|
   next (fail if obj.to_s["af_"]) if treasures.include? obj["story_id"]
   next true unless obj.to_s["af_"]
   next if obj["section_name"][/\Aaf_/]
@@ -27,8 +27,7 @@ end.compact.to_h
   else
     fail
   end
-  end.compact
-  names_not_localized = objs.map do |obj|
+  end.compact.map do |obj|
     x, _, y = obj["position"]
     require "nokogiri"
     name_s, name_p, fill, size, color = if obj["section_name"][/\Aaf_/]
@@ -48,10 +47,9 @@ end.compact.to_h
     end
     [name_s, name_p, fill, x, y, size, color]
   end
-  [objs, names_not_localized]
 end
-puts "ARTIFACTS: #{objs.size}"
-abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if objs.size < Fixtures.fetch(ARGV[1])[:ARTIFACTS]
+puts "ARTIFACTS: #{not_localized.size}"
+abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if not_localized.size < Fixtures.fetch(ARGV[1])[:ARTIFACTS]
 
 [%w{ rus в Всего: секрет не }, %w{ eng in\ a Total: secret not\ a }].each do |locale, word, total, stash, not_a|
   image = Render.prepare_image
@@ -62,7 +60,7 @@ abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if objs.size < Fixtures.fetch(A
       File.read("out/config/misc/artefacts.ltx", encoding: "CP1251").encode("utf-8", "cp1251").scan(/^\[([^\]]+).+\n(?:(?:[^\[\n].*)?\n)*inv_name\s*=\s*(\S+)/).to_h.fetch name
     }").text.strip
   end
-  names = names_not_localized.map do |name_s, name_p, fill, x, y, size, color|
+  names = not_localized.map do |name_s, name_p, fill, x, y, size, color|
     name_s = name_s.is_a?(String) ? localize[name_s] : name_s.map(&localize)
     image.image = image.image.draw_circle [255, 255, 255], fx(x), fy(y), 2, fill: fill
     [name_s, name_p[name_s, locale, word], *image.prepare_text(fx(x), fy(y), name_p[name_s, locale, word], size, *color)]
