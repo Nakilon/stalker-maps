@@ -13,7 +13,7 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
     when "section_name = device_torch" ; break []
     when "section_name = harmonica_a" ; break []
     when "section_name = explosive_barrel" ; break []
-    when "section_name = zone_flame_small" ; break []
+    when "section_name = zone_flame_small" ; break [] # campfire
     when "section_name = level_changer" ; break []
     when "section_name = helicopter" ; break []
     when "section_name = device_pda" ; break []
@@ -28,6 +28,7 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
     when /\Aname = meshes\\brkbl#\d+\.ogf\z/ ; break []
     when /\Aname = clmbl#\d\d?\z/ ; break []
     when "s_gameid = 0x1"
+    when "character_profile = bar_Stalker_general"
     when /\Abone_\d\d?:[a-z_]+ = \S/
     when /\Ashape_1?\d:[a-z_]+ = \S/
     when /\Ajob_\d\d?:[a-z_]+ = \S/
@@ -38,7 +39,7 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
     when /\A(visual_name) = ([A-Za-z_\d\\-]+)\z/ ; [$1, $2.downcase]
     when /\A(specific_character) = ([a-z_\d]+)\z/ ; [$1, $2]
     when /\A(character_name) = ([А-Яа-яё ]+)\z/ ; [$1, $2]
-    when /\A(section_name) = ([a-z_\d\.]+)\z/ ; [$1, $2]
+    when /\A(section_name) = ([a-z_\d\.-]+)\z/ ; [$1, $2]
     when /\A(dest_level_name) = ([A-Za-z_\d]+)\z/ ; [$1, $2.downcase]
     when /\A(custom_data) = (cond = 0\.2)\z/ ; [$1, $2]
     when /\A(custom_data) = (\[dont_spawn_character_supplies\])\z/
@@ -59,7 +60,7 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
       [$1, case v = $2
       when /\A\d+\z/ ; v.to_i
       when /\A-?\d+\.\d+\z/ ; v.to_f
-      when /\A[a-z_]+\z/ ; v
+      when /\A[a-z_-]+\z/ ; v
       when /\A(-?\d+(?:\.\d+(?:e-\d+)?)?), (-?\d+(?:\.\d+(?:e[-+]\d+)?)?), (-?\d+(\.\d+(e-\d+)?)?)\z/ ; [$1.to_f, $2.to_f, $3.to_f]
       when /\A#{magic}/
         data = Base64.strict_decode64(v[2..-1])

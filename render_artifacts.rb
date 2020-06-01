@@ -51,7 +51,7 @@ end
 not_localized.select! do |name_s, _, fill, x, y, size, color|
   rest.all? do |another|
     another.any? do |name_s_, _, fill_, x_, y_, size_, color_|
-      [name_s, fill, size, color_] == [name_s_, fill_, size_, color_] && 10 > Math.hypot(x - x_, y - y_)
+      [name_s, fill, size, color_] == [name_s_, fill_, size_, color_] && 0 >= Math.hypot(x - x_, y - y_)
     end
   end
 end
@@ -75,7 +75,7 @@ abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if not_localized.size < Fixture
 
   # legend
   strings = File.read("out/config/text/#{locale}/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-  image.image = image.image.composite2(*image.prepare_text(image.image.width - 300, 40, strings.fetch(ARGV[1]), 250)).flatten
+  image.image = image.image.composite2(*image.prepare_text(image.image.width - 350, 40, strings.fetch(ARGV[1]), 250)).flatten
   image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, image.image.height - 40, "nakilon@gmail.com")).flatten
   x = y = 50
   image.image = image.image.composite2(*image.prepare_text(x, y, total, 160)).flatten
