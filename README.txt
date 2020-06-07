@@ -70,6 +70,8 @@ $ gsutil cp rendered/l03u_agr_underground_mutants_eng.jpg gs://heavy.www.nakilon
 $ gsutil cp rendered/l03u_agr_underground_mutants_rus.jpg gs://heavy.www.nakilon.pro/stalker_v1/
 $ gsutil cp rendered/l03u_agr_underground_npcs.jpg gs://heavy.www.nakilon.pro/stalker_v1/
 
+$ haml -q stalker.haml ../../www-nakilon-pro/www.nakilon.pro/stalker.htm
+
 
 v the most outdated code v
 render_npcs.rb
