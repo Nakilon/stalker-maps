@@ -59,7 +59,7 @@ puts "ARTIFACTS: #{not_localized.size}"
 abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if not_localized.size < Fixtures.fetch(ARGV[1])[:ARTIFACTS]
 
 [%w{ rus в Всего: секрет не }, %w{ eng in\ a Total: secret not\ a }].each do |locale, word, total, stash, not_a|
-  image = Render.prepare_image
+  image = Render.prepare_image locale
 
   # data
   localize = lambda do |name|
@@ -75,8 +75,6 @@ abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if not_localized.size < Fixture
 
   # legend
   strings = File.read("out/config/text/#{locale}/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-  image.image = image.image.composite2(*image.prepare_text(image.image.width - 350, 40, strings.fetch(ARGV[1]), 250)).flatten
-  image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, image.image.height - 40, "nakilon@gmail.com")).flatten
   x = y = 50
   image.image = image.image.composite2(*image.prepare_text(x, y, total, 160)).flatten
   y += 20

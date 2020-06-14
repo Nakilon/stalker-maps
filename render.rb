@@ -39,40 +39,77 @@ Fixtures = {
     BG: "bg_l03u.jpg",
     FXA: 1140, FXB: 8.35, FYA: 415, FYB: 8.265,
   },
+  "l04_darkvalley" => {
+    ALL: 1000,
+    NPCS: 75,
+    MUTANTS: 75,
+    ANOMALIES: 50,
+    ARTIFACTS: 20,
+    BG: "bg_l04.jpg",
+    FXA: 971, FXB: 2.875, FYA: 420, FYB: 3.075,
+    LEFT: 350, WIDTH: 1400, TOP: 150, HEIGHT: 2000,
+  },
+  "l04u_labx18" => {
+    ALL: 300,
+    NPCS: 8,
+    MUTANTS: 9,
+    ANOMALIES: 12,
+    ARTIFACTS: 3,
+    BG: "bg_l04u.jpg",
+    FXA: 515, FXB: 10, FYA: 680, FYB: 8.5,
+    # LEFT: 350, WIDTH: 1400, TOP: 150, HEIGHT: 2000,
+  },
 }
 
 require "yaml"
 ALL = YAML.load_file ARGV[0]
 puts "ALL: #{ALL.size}"
-abort "< #{Fixtures.fetch(ARGV[1])[:ALL]}" if ALL.size < Fixtures.fetch(ARGV[1])[:ALL]
-
-def fx x
-  Fixtures.fetch(ARGV[1])[:FXA] + x * Fixtures.fetch(ARGV[1])[:FXB]
-end
-def fy y
-  Fixtures.fetch(ARGV[1])[:FYA] - y * Fixtures.fetch(ARGV[1])[:FYB] - (Fixtures.fetch(ARGV[1])[:TOP] || 0)
+if ARGV[1][/\A(\d+)x(\d+)\z/]
+  def fx x
+    ARGV[7].to_i + x * ARGV[8].to_i
+  end
+  def fy y
+    ARGV[9].to_i - y * ARGV[10].to_i
+  end
+else
+  abort "< #{Fixtures.fetch(ARGV[1])[:ALL]}" if ALL.size < Fixtures.fetch(ARGV[1])[:ALL]
+  def fx x
+    Fixtures.fetch(ARGV[1])[:FXA] + x * Fixtures.fetch(ARGV[1])[:FXB] - (Fixtures.fetch(ARGV[1])[:LEFT] || 0)
+  end
+  def fy y
+    Fixtures.fetch(ARGV[1])[:FYA] - y * Fixtures.fetch(ARGV[1])[:FYB] - (Fixtures.fetch(ARGV[1])[:TOP] || 0)
+  end
 end
 
 module Render
   require "vips"
-  def self.prepare_image
+  def self.prepare_image locale
     image = case ARGV[1]
       when "l01_escape"
         Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).flatten.tap do |image|
           left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
           break image.crop left || 0, top || 0, width || image.width, [(height || image.height), image.height - (top || 0)].min
         end
-      when "l02_garbage" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).resize 2, vscale: 2, kernel: :lanczos2
-      when "l03_agroprom" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).resize 2, vscale: 2, kernel: :lanczos2
+      when "l02_garbage", "l03_agroprom" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).resize 2, vscale: 2, kernel: :lanczos2
+      when "l04u_labx18" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential) * [1, 0.85, 1]
       when "l03u_agr_underground"
         Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).tap do |image|
           break image.embed 0, 0, image.width + 20, image.height, background: image.shrink(image.width, image.height).getpoint(0, 0)
         end.resize 4, vscale: 4, kernel: :lanczos2
+      when "l04_darkvalley"
+        Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).resize(2, vscale: 2, kernel: :lanczos2).tap do |image|
+          left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
+          break image.crop left || 0, top || 0, width || image.width, [(height || image.height), image.height - (top || 0)].min
+        end
+      when /\A(\d+)x(\d+)\z/ ; Vips::Image.black $1.to_i, $2.to_i
       else ; fail
     end
     Struct.new :image do
+      def prepare_text_only x, text, dpi
+        Vips::Image.text text, width: [image.width - x - 7, 0].max, dpi: dpi, font: "Verdana Bold"
+      end
       def prepare_text x, y, text, dpi = 100, color = [192, 192, 192]
-        text = Vips::Image.text text, width: [image.width - x - 7, 0].max, dpi: dpi, font: "Verdana Bold"
+        text = prepare_text_only(x, text, dpi)
         [
           text.new_from_image(color).copy(interpretation: :srgb).bandjoin(text),
           :over, x: x + 7, y: y - 5
@@ -83,6 +120,10 @@ module Render
         text = text.new_from_image(color).copy(interpretation: :srgb).bandjoin(text)
         [text, :over, x: x - text.width / 2, y: y - 5]
       end
-    end.new image
+    end.new(image).tap do |image|
+      strings = File.read("out/config/text/#{locale}/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
+      image.image = image.image.composite2(*image.prepare_text(image.image.width - image.prepare_text_only(0, strings.fetch(ARGV[1]), 200).width - 50, 40, strings.fetch(ARGV[1]), 200)).flatten
+      image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, image.image.height - 40, "nakilon@gmail.com")).flatten
+    end
   end
 end

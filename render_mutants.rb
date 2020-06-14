@@ -1,7 +1,7 @@
 require_relative "render"
 
 mutants = ALL.select do |item|
-  next unless /\Amonsters\\/ =~ item["visual_name"]
+  next unless /\Amonsters\\/ =~ item["visual_name"] && "physic_object" != item["section_name"]
   true
 end.compact
 puts "MUTANTS: #{mutants.size}"
@@ -9,7 +9,7 @@ abort "< #{Fixtures.fetch(ARGV[1])[:MUTANTS]}" if mutants.size < Fixtures.fetch(
 
 
 [%w{ rus Всего: }, %w{ eng Total: }].each do |locale, total|
-  image = Render.prepare_image
+  image = Render.prepare_image locale
 
   color = lambda do |name|
     hsv_to_rgb = lambda do |h, s, v|
@@ -54,9 +54,6 @@ abort "< #{Fixtures.fetch(ARGV[1])[:MUTANTS]}" if mutants.size < Fixtures.fetch(
   end.compact
 
   # legend
-  strings = File.read("out/config/text/#{locale}/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-  image.image = image.image.composite2(*image.prepare_text(image.image.width - 350, 40, strings.fetch(ARGV[1]), 250)).flatten
-  image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, image.image.height - 40, "nakilon@gmail.com")).flatten
   x = y = 50
   require "mll"
   image.image = image.image.composite2(*image.prepare_text(x + 10, y, total, 160)).flatten

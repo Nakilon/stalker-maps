@@ -13,8 +13,8 @@ end.compact
 puts "NPC: #{npcs.size}"
 abort "< #{Fixtures.fetch(ARGV[1])[:NPCS]}" if npcs.size < Fixtures.fetch(ARGV[1])[:NPCS]
 
-image = Render.prepare_image
-colors = [p,p,p,[192,192,192],p,[0,150,0],p,p,[192,0,0],p,[192,128,128]]
+image = Render.prepare_image "rus"
+colors = [p,p,p,[192,192,192],p,[0,150,0],p,[192,192,0],[192,0,0],p,[192,128,128]]
 
 names_other = YAML.load_file(ARGV[2]).map{ |item| item["character_name"] }
 # data
@@ -44,9 +44,9 @@ begin
   names.permutation(2) do |name1, name2|
     t1, _, xy1 = *name1
     t2, _, xy2 = *name2
-    next unless (xy1[:y]...xy1[:y]+t1.height).include?(xy2[:y]) && (
-                (xy1[:x]...xy1[:x]+t1.width ).include?(xy2[:x]) ||
-                (xy1[:x]...xy1[:x]+t1.width).include?(xy2[:x]+t2.width))
+    next unless (xy1[:y]+(xy1[:x] > xy2[:x] ? 0 : 1)...xy1[:y]+t1.height).include?(xy2[:y]) && (
+                (xy1[:x] + t1.width  > xy2[:x]) &&
+                (xy2[:x] + t2.width  > xy1[:x]) )
     moved = true
     name1[2][:y] -= 1
     name2[2][:y] += 1
@@ -57,8 +57,6 @@ names.each{ |name| image.image = image.image.composite2(*name).flatten }
 # legend
 communities = File.read("out/config/creatures/game_relations.ltx", encoding: "CP1251").encode("utf-8", "cp1251")[/^communities\s*=\s*(.+)/, 1].split(?,).each_slice(2).map(&:first).map &:strip
 strings = File.read("out/config/text/rus/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
-image.image = image.image.composite2(*image.prepare_text(image.image.width - 350, 40, strings.fetch(ARGV[1]), 250)).flatten
-image.image = image.image.composite2(*image.prepare_text(image.image.width - 240, image.image.height - 40, "nakilon@gmail.com")).flatten
 x, y = 50, 38
 [3, 5, 8, 10].each do |index|
   next unless npcs.any?{ |npc| index == npc["community_index"] }

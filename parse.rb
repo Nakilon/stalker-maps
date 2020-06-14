@@ -28,21 +28,22 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
     when /\Aname = meshes\\brkbl#\d+\.ogf\z/ ; break []
     when /\Aname = clmbl#\d\d?\z/ ; break []
     when "s_gameid = 0x1"
-    when "character_profile = bar_Stalker_general"
+    when /\Acharacter_profile = [A-Za-z_\d]+\z/
+    when /\Ajob_online_condlist = \{+[a-z_\d]+\}\z/
     when /\Abone_\d\d?:[a-z_]+ = \S/
     when /\Ashape_1?\d:[a-z_]+ = \S/
     when /\Ajob_\d\d?:[a-z_]+ = \S/
     when /\Aupd:ammo_ids =( 0, 0)?\z/
     when /\AstateBegin = [\d:]+\z/
     when /\Ainfo_\d\d?:[A-Za-z_]+ = [\d:]+\z/
-    when /\A(name) = ([a-z_\d\.]+)\z/ ; [$1, $2]
+    when /\A(name) = ([a-z_][a-z_\d\.-]*)\z/ ; [$1, $2]
     when /\A(visual_name) = ([A-Za-z_\d\\-]+)\z/ ; [$1, $2.downcase]
     when /\A(specific_character) = ([a-z_\d]+)\z/ ; [$1, $2]
-    when /\A(character_name) = ([А-Яа-яё ]+)\z/ ; [$1, $2]
+    when /\A(character_name) = ([А-Яа-яё \.]+)\z/ ; [$1, $2]
     when /\A(section_name) = ([a-z_\d\.-]+)\z/ ; [$1, $2]
     when /\A(dest_level_name) = ([A-Za-z_\d]+)\z/ ; [$1, $2.downcase]
     when /\A(custom_data) = (cond = 0\.2)\z/ ; [$1, $2]
-    when /\A(custom_data) = (\[dont_spawn_character_supplies\])\z/
+    when /\A(custom_data) = (\[(?:dont_spawn_character_supplies|ph_heavy)\])\z/
     when /\Asquad_id = \S/
     when /\Avisual_flags = 0x1\z/
     when /\Aspawned_obj = (\d+(, \d+)*)?\z/
@@ -56,6 +57,7 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
         s_rp upd:num_items upd:creature_flags artefact_position_offset dest_graph_point
         duration_end motion_name engine_sound main_color
         base_in_restrictors base_out_restrictors
+        job_online_condlist
       }.include? $1
       [$1, case v = $2
       when /\A\d+\z/ ; v.to_i
