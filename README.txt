@@ -38,6 +38,18 @@ $ ruby parse.rb master/2/alife_l04u_labx18.ltx > l04u_labx18/2.yaml
 $ ruby parse.rb master/3/alife_l04u_labx18.ltx > l04u_labx18/3.yaml
 $ ruby parse.rb master/4/alife_l04u_labx18.ltx > l04u_labx18/4.yaml
 $ ruby parse.rb master/5/alife_l04u_labx18.ltx > l04u_labx18/5.yaml
+$ mkdir l05_bar
+$ ruby parse.rb master/1/alife_l05_bar.ltx > l05_bar/1.yaml
+$ ruby parse.rb master/2/alife_l05_bar.ltx > l05_bar/2.yaml
+$ ruby parse.rb master/3/alife_l05_bar.ltx > l05_bar/3.yaml
+$ ruby parse.rb master/4/alife_l05_bar.ltx > l05_bar/4.yaml
+$ ruby parse.rb master/5/alife_l05_bar.ltx > l05_bar/5.yaml
+$ mkdir l06_rostok
+$ ruby parse.rb master/1/alife_l06_rostok.ltx > l06_rostok/1.yaml
+$ ruby parse.rb master/2/alife_l06_rostok.ltx > l06_rostok/2.yaml
+$ ruby parse.rb master/3/alife_l06_rostok.ltx > l06_rostok/3.yaml
+$ ruby parse.rb master/4/alife_l06_rostok.ltx > l06_rostok/4.yaml
+$ ruby parse.rb master/5/alife_l06_rostok.ltx > l06_rostok/5.yaml
 
 $ bash ./render.sh
 $ tree rendered

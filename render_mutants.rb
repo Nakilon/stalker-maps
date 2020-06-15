@@ -27,6 +27,7 @@ abort "< #{Fixtures.fetch(ARGV[1])[:MUTANTS]}" if mutants.size < Fixtures.fetch(
         end.map{ |i| (2.55 * i).round }
     end
     {
+      "m_dog_e" => [hsv_to_rgb[20, 50, 90]],
       "dog_weak" => [hsv_to_rgb[20, 50, 90]],
       "dog_normal" => [hsv_to_rgb[20, 50, 90]],
       "dog_strong" => [hsv_to_rgb[20, 50, 90]],

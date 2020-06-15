@@ -24,3 +24,11 @@ ruby render_npcs.rb l04u_labx18/1.yaml l04u_labx18 l04u_labx18/2.yaml
 ruby render_mutants.rb l04u_labx18/1.yaml l04u_labx18
 ruby render_anomalies.rb l04u_labx18/1.yaml l04u_labx18
 ruby render_artifacts.rb l04u_labx18/1.yaml l04u_labx18 l04u_labx18/1.yaml l04u_labx18/2.yaml l04u_labx18/3.yaml l04u_labx18/4.yaml l04u_labx18/5.yaml
+ruby render_npcs.rb l05_bar/1.yaml l05_bar l05_bar/2.yaml
+ruby render_mutants.rb l05_bar/1.yaml l05_bar
+ruby render_anomalies.rb l05_bar/1.yaml l05_bar
+ruby render_artifacts.rb l05_bar/1.yaml l05_bar l05_bar/1.yaml l05_bar/2.yaml l05_bar/3.yaml l05_bar/4.yaml l05_bar/5.yaml
+ruby render_npcs.rb l06_rostok/1.yaml l06_rostok l06_rostok/2.yaml
+ruby render_mutants.rb l06_rostok/1.yaml l06_rostok
+ruby render_anomalies.rb l06_rostok/1.yaml l06_rostok
+ruby render_artifacts.rb l06_rostok/1.yaml l06_rostok l06_rostok/1.yaml l06_rostok/2.yaml l06_rostok/3.yaml l06_rostok/4.yaml l06_rostok/5.yaml

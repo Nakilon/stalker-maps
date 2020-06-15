@@ -27,6 +27,7 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
     when /\Aname = trader_physic_object\d+\z/ ; break []
     when /\Aname = meshes\\brkbl#\d+\.ogf\z/ ; break []
     when /\Aname = clmbl#\d\d?\z/ ; break []
+    when "name = rostok_cheat _sound_restrictor" ; break []
     when "s_gameid = 0x1"
     when /\Acharacter_profile = [A-Za-z_\d]+\z/
     when /\Ajob_online_condlist = \{+[a-z_\d]+\}\z/
@@ -39,11 +40,11 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
     when /\A(name) = ([a-z_][a-z_\d\.-]*)\z/ ; [$1, $2]
     when /\A(visual_name) = ([A-Za-z_\d\\-]+)\z/ ; [$1, $2.downcase]
     when /\A(specific_character) = ([a-z_\d]+)\z/ ; [$1, $2]
-    when /\A(character_name) = ([А-Яа-яё \.]+)\z/ ; [$1, $2]
+    when /\A(character_name) = ([А-Яа-яё "\.]+)\z/ ; [$1, $2]
     when /\A(section_name) = ([a-z_\d\.-]+)\z/ ; [$1, $2]
     when /\A(dest_level_name) = ([A-Za-z_\d]+)\z/ ; [$1, $2.downcase]
     when /\A(custom_data) = (cond = 0\.2)\z/ ; [$1, $2]
-    when /\A(custom_data) = (\[(?:dont_spawn_character_supplies|ph_heavy)\])\z/
+    when /\A(custom_data) = (\[(?:dont_spawn_character_supplies|ph_heavy|arena_zone)\])\z/
     when /\Asquad_id = \S/
     when /\Avisual_flags = 0x1\z/
     when /\Aspawned_obj = (\d+(, \d+)*)?\z/
@@ -57,7 +58,7 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
         s_rp upd:num_items upd:creature_flags artefact_position_offset dest_graph_point
         duration_end motion_name engine_sound main_color
         base_in_restrictors base_out_restrictors
-        job_online_condlist
+        job_online_condlist skeleton_name
       }.include? $1
       [$1, case v = $2
       when /\A\d+\z/ ; v.to_i
@@ -102,6 +103,6 @@ require "yaml"
 puts YAML.dump all
 
 require "mll"
-PP.pp MLL::tally[all.flat_map &:keys].sort_by(&:last).first(15), STDERR
+PP.pp MLL::tally[all.flat_map &:keys].sort_by(&:last), STDERR
 
 STDERR.puts "OK"

@@ -14,7 +14,7 @@ Fixtures = {
   },
   "l02_garbage" => {
     ALL: 750,
-    NPCS: 50,
+    NPCS: 60,
     MUTANTS: 40,
     ANOMALIES: 150,
     ARTIFACTS: 40,
@@ -23,7 +23,7 @@ Fixtures = {
   },
   "l03_agroprom" => {
     ALL: 750,
-    NPCS: 30,
+    NPCS: 60,
     MUTANTS: 25,
     ANOMALIES: 100,
     ARTIFACTS: 13,
@@ -32,7 +32,7 @@ Fixtures = {
   },
   "l03u_agr_underground" => {
     ALL: 250,
-    NPCS: 19,
+    NPCS: 20,
     MUTANTS: 2,
     ANOMALIES: 25,
     ARTIFACTS: 11,
@@ -41,7 +41,7 @@ Fixtures = {
   },
   "l04_darkvalley" => {
     ALL: 1000,
-    NPCS: 75,
+    NPCS: 90,
     MUTANTS: 75,
     ANOMALIES: 50,
     ARTIFACTS: 20,
@@ -57,7 +57,26 @@ Fixtures = {
     ARTIFACTS: 3,
     BG: "bg_l04u.jpg",
     FXA: 515, FXB: 10, FYA: 680, FYB: 8.5,
-    # LEFT: 350, WIDTH: 1400, TOP: 150, HEIGHT: 2000,
+  },
+  "l05_bar" => {
+    ALL: 600,
+    NPCS: 50,
+    MUTANTS: 35,
+    ANOMALIES: 9,
+    ARTIFACTS: 6,
+    BG: "bg_l05.jpg",
+    FXA: -60, FXB: 3.7, FYA: 1110, FYB: 4,
+    WIDTH: 1100, TOP: 360, HEIGHT: 1400,
+  },
+  "l06_rostok" => {
+    ALL: 700,
+    NPCS: 47,
+    MUTANTS: 14,
+    ANOMALIES: 50,
+    ARTIFACTS: 20,
+    BG: "bg_l06.jpg",
+    FXA: 1236, FXB: 2.65, FYA: 823, FYB: 2.75,
+    LEFT: 100, WIDTH: 1400, TOP: 100, HEIGHT: 1400,
   },
 }
 
@@ -91,7 +110,16 @@ module Render
           break image.crop left || 0, top || 0, width || image.width, [(height || image.height), image.height - (top || 0)].min
         end
       when "l02_garbage", "l03_agroprom" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).resize 2, vscale: 2, kernel: :lanczos2
+      when "l05_bar"
+        Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).resize(2, vscale: 2, kernel: :lanczos2).tap do |image|
+          left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
+          break image.crop left || 0, top || 0, width || image.width, [(height || image.height), image.height - (top || 0)].min
+        end * 0.7
       when "l04u_labx18" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential) * [1, 0.85, 1]
+      when "l06_rostok" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).resize(2, vscale: 2, kernel: :lanczos2).tap do |image|
+          left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
+          break image.crop left || 0, top || 0, width || image.width, [(height || image.height), image.height - (top || 0)].min
+        end * 0.7
       when "l03u_agr_underground"
         Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).tap do |image|
           break image.embed 0, 0, image.width + 20, image.height, background: image.shrink(image.width, image.height).getpoint(0, 0)

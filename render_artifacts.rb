@@ -16,36 +16,61 @@ not_localized, *rest = [ALL, *ARGV[2,5].map(&YAML.method(:load_file))].map do |_
   case obj["custom_data"].size
   when 1
     (pp obj; fail) unless obj["custom_data"][0].size == 2
-    (pp obj; fail) unless obj["custom_data"][0][0] == "drop_box"
-    (pp obj; fail) unless obj["custom_data"][0][1].is_a? Array
-    (pp obj; fail) unless obj["custom_data"][0][1].size == 2
-    (pp obj; fail) unless obj["custom_data"][0][1][0][/\Acommunity = \S+_box\S*\z/]
-    (pp obj; fail) unless obj["custom_data"][0][1][1][/\Aitems = af_[a-z_]+\z/]
+    case obj["custom_data"][0][0]
+    when "drop_box"
+      (pp obj; fail) unless obj["custom_data"][0][1].is_a? Array
+      (pp obj; fail) unless obj["custom_data"][0][1].size == 2
+      (pp obj; fail) unless obj["custom_data"][0][1][0][/\Acommunity = \S+_box\S*\z/]
+      (pp obj; fail) unless obj["custom_data"][0][1][1][/\Aitems = af_[a-z_]+\z/]
+    when "respawn"
+      (pp obj; fail) unless obj["custom_data"][0][1].is_a? Array
+      (pp obj; fail) unless obj["custom_data"][0][1].size == 4
+      (pp obj; fail) unless obj["custom_data"][0][1][0] == "respawn_section = ammo_11.43x23_fmj,3,medkit,2,bandage,2,grenade_f1,2,af_cristall_flower"
+      (pp obj; fail) unless obj["custom_data"][0][1][1] == "idle_spawn = -1"
+      (pp obj; fail) unless obj["custom_data"][0][1][2] == "parent = 2031"
+      (pp obj; fail) unless obj["custom_data"][0][1][3] == "item_spawn = true"
+    else
+      fail
+    end
   when 2
     (pp obj; fail) unless obj["custom_data"][0] == ["dont_spawn_character_supplies", []]
     (pp obj; fail) unless obj["custom_data"][1] == ["spawn",["wpn_mp5_m1", "ammo_9x18_fmj = 3", "medkit", "bandage = 2", "af_cristall_flower"]]
   else
     fail
   end
-  end.compact.map do |obj|
+  end.compact.flat_map do |obj|
     x, _, y = obj["position"]
     require "nokogiri"
-    name_s, name_p, fill, size, color = if obj["section_name"][/\Aaf_/]
-      [obj["section_name"], ->_,__,___{_}, true, 95]
+    array = if obj["section_name"][/\Aaf_/]
+      [[obj["section_name"], ->_,__,___{_}, true, 95]]
     elsif treasures.include? obj["story_id"]
-      [treasures[obj["story_id"]][1], ->_,__,___{ "#{_.join ", "} (\"#{
+      [[treasures[obj["story_id"]][1], ->_,__,___{ "#{_.join ", "} (\"#{
         Nokogiri::XML(File.read "out/config/text/#{__}/stable_treasure_manager.xml").at_css("##{treasures[obj["story_id"]][0]}").text.strip
       }\")".tap do |s|
         s.gsub!(/(\b\S.{25}\S*) (?=....)/, "\\1\n") if s.size >= 50
-      end }, false, 70, [[160, 160, 160]]]
+      end }, false, 70, [[160, 160, 160]]]]
     else
-      [*case obj["custom_data"].size
-      when 1 ; [obj["custom_data"][0][1][1][/\S+$/], ->_,__,___{ "#{_} (#{___} #{obj["custom_data"][0][1][0][/\S+$/]})" } ]
-      when 2 ; ["af_cristall_flower",                ->_,__,___{ "#{_} (#{___} #{obj["section_name"]})" }                 ]
-      else ; fail
-      end, true, 85]
+      case obj["custom_data"].size
+      when 1
+        case obj["custom_data"][0][0]
+        when "drop_box"
+          [[obj["custom_data"][0][1][1][/\S+$/], ->_,__,___{ "#{_} (#{___} #{obj["custom_data"][0][1][0][/\S+$/]})" }, true, 85]]
+        when "respawn"
+          obj["custom_data"][0][1][0][/\S+$/].split(?,).grep(/af_/).map do |item|
+            [item, ->_,__,___{ "#{_} (#{___} #{obj["name"]})" }, true, 85]
+          end
+        else
+          fail
+        end
+      when 2 ;
+        [["af_cristall_flower", ->_,__,___{ "#{_} (#{___} #{obj["section_name"]})" }, true, 85]]
+      else
+        fail
+      end
     end
-    [name_s, name_p, fill, x, y, size, color]
+    array.map do |name_s, name_p, fill, size, color|
+      [name_s, name_p, fill, x, y, size, color]
+    end
   end
 end
 not_localized.select! do |name_s, _, fill, x, y, size, color|
