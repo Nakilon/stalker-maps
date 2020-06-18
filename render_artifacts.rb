@@ -9,35 +9,35 @@ end.compact.to_h
 
 not_localized, *rest = [ALL, *ARGV[2,5].map(&YAML.method(:load_file))].map do |_|
   _.reject do |obj|
-  next (fail if obj.to_s["af_"]) if treasures.include? obj["story_id"]
-  next true unless obj.to_s["af_"]
-  next if obj["section_name"][/\Aaf_/]
-  (pp obj; fail) unless obj["custom_data"].is_a? Array
-  case obj["custom_data"].size
-  when 1
-    (pp obj; fail) unless obj["custom_data"][0].size == 2
-    case obj["custom_data"][0][0]
-    when "drop_box"
-      (pp obj; fail) unless obj["custom_data"][0][1].is_a? Array
-      (pp obj; fail) unless obj["custom_data"][0][1].size == 2
-      (pp obj; fail) unless obj["custom_data"][0][1][0][/\Acommunity = \S+_box\S*\z/]
-      (pp obj; fail) unless obj["custom_data"][0][1][1][/\Aitems = af_[a-z_]+\z/]
-    when "respawn"
-      (pp obj; fail) unless obj["custom_data"][0][1].is_a? Array
-      (pp obj; fail) unless obj["custom_data"][0][1].size == 4
-      (pp obj; fail) unless obj["custom_data"][0][1][0] == "respawn_section = ammo_11.43x23_fmj,3,medkit,2,bandage,2,grenade_f1,2,af_cristall_flower"
-      (pp obj; fail) unless obj["custom_data"][0][1][1] == "idle_spawn = -1"
-      (pp obj; fail) unless obj["custom_data"][0][1][2] == "parent = 2031"
-      (pp obj; fail) unless obj["custom_data"][0][1][3] == "item_spawn = true"
+    next (fail if obj.to_s["af_"]) if treasures.include? obj["story_id"]
+    next true unless obj.to_s["af_"]
+    next if obj["section_name"][/\Aaf_/]
+    (pp obj; fail) unless obj["custom_data"].is_a? Array
+    case obj["custom_data"].size
+    when 1
+      (pp obj; fail) unless obj["custom_data"][0].size == 2
+      case obj["custom_data"][0][0]
+      when "drop_box"
+        (pp obj; fail) unless obj["custom_data"][0][1].is_a? Array
+        (pp obj; fail) unless obj["custom_data"][0][1].size == 2
+        (pp obj; fail) unless obj["custom_data"][0][1][0][/\Acommunity = \S+_box\S*\z/]
+        (pp obj; fail) unless obj["custom_data"][0][1][1][/\Aitems = af_[a-z_]+\z/]
+      when "respawn"
+        (pp obj; fail) unless obj["custom_data"][0][1].is_a? Array
+        (pp obj; fail) unless obj["custom_data"][0][1].size == 4
+        (pp obj; fail) unless obj["custom_data"][0][1][0] == "respawn_section = ammo_11.43x23_fmj,3,medkit,2,bandage,2,grenade_f1,2,af_cristall_flower"
+        (pp obj; fail) unless obj["custom_data"][0][1][1] == "idle_spawn = -1"
+        (pp obj; fail) unless obj["custom_data"][0][1][2] == "parent = 2031"
+        (pp obj; fail) unless obj["custom_data"][0][1][3] == "item_spawn = true"
+      else
+        fail
+      end
+    when 2
+      (pp obj; fail) unless obj["custom_data"][0] == ["dont_spawn_character_supplies", []]
+      (pp obj; fail) unless obj["custom_data"][1] == ["spawn",["wpn_mp5_m1", "ammo_9x18_fmj = 3", "medkit", "bandage = 2", "af_cristall_flower"]]
     else
       fail
     end
-  when 2
-    (pp obj; fail) unless obj["custom_data"][0] == ["dont_spawn_character_supplies", []]
-    (pp obj; fail) unless obj["custom_data"][1] == ["spawn",["wpn_mp5_m1", "ammo_9x18_fmj = 3", "medkit", "bandage = 2", "af_cristall_flower"]]
-  else
-    fail
-  end
   end.compact.flat_map do |obj|
     x, _, y = obj["position"]
     require "nokogiri"
