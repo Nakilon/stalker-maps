@@ -50,11 +50,17 @@ $ ruby parse.rb master/2/alife_l06_rostok.ltx > l06_rostok/2.yaml
 $ ruby parse.rb master/3/alife_l06_rostok.ltx > l06_rostok/3.yaml
 $ ruby parse.rb master/4/alife_l06_rostok.ltx > l06_rostok/4.yaml
 $ ruby parse.rb master/5/alife_l06_rostok.ltx > l06_rostok/5.yaml
+$ mkdir l07_military
+$ ruby parse.rb master/1/alife_l07_military.ltx > l07_military/1.yaml
+$ ruby parse.rb master/2/alife_l07_military.ltx > l07_military/2.yaml
+$ ruby parse.rb master/3/alife_l07_military.ltx > l07_military/3.yaml
+$ ruby parse.rb master/4/alife_l07_military.ltx > l07_military/4.yaml
+$ ruby parse.rb master/5/alife_l07_military.ltx > l07_military/5.yaml
 
 $ bash ./render.sh
-$ tree rendered
-$ hash ./gsutil.sh
-
+$ bash ./gsutil.sh
+$ bash ./jpegsave.sh
+$ gsutil -m cp preview/* gs://heavy.www.nakilon.pro/stalker_preview/
 $ haml -q stalker.haml ../../www-nakilon-pro/www.nakilon.pro/stalker.htm
 
 $ ruby debug.rb l04_darkvalley/1.yaml 4000x4000 l04_darkvalley/1.yaml l04_darkvalley/2.yaml l04_darkvalley/3.yaml l04_darkvalley/4.yaml l04_darkvalley/5.yaml 1500 5 1000 5 999 m_bloodsucker_e stalker bloodsucker_normal

@@ -1,7 +1,7 @@
 require_relative "render"
 
 npcs = ALL.select do |item|
-  next unless "stalker" == item["section_name"]
+  next unless %w{ stalker stalker_trader }.include? item["section_name"]
   next if 1 == item["community_index"] # actor_dolg
   next if 14 == item["community_index"] # arena_enemy
   if t = item["custom_data"].to_h["spawner"]
@@ -15,10 +15,12 @@ puts "NPC: #{npcs.size}"
 abort "< #{Fixtures.fetch(ARGV[1])[:NPCS]}" if npcs.size < Fixtures.fetch(ARGV[1])[:NPCS]
 
 image = Render.prepare_image "rus"
-colors = [p,p,p,[192,192,192],p,[0,150,0],[0,0,192],[192,192,0],[192,0,0],p,[192,128,128]]
+colors = [p,p,p,[192,192,192],p,[0,150,0],[0,0,192],[192,192,0],[192,0,0],[192,128,0],[192,128,128]]
 # communities   = actor, 0, actor_dolg, 1, actor_freedom, 2, stalker, 5, monolith, 6, military, 7, killer, 8, ecolog, 9, dolg, 10, freedom, 11, bandit, 12, zombied, 13, stranger, 14, trader, 15, arena_enemy, 16
 
-names_other = YAML.load_file(ARGV[2]).map{ |item| item["character_name"] }
+names_other = ARGV.drop(2).map do |file|
+  YAML.load_file(file).map{ |item| item["character_name"] }
+end
 # data
 names = npcs.map do |npc|
   health = npc["health"] || npc["upd:health"]
@@ -40,7 +42,9 @@ names = npcs.map do |npc|
   else ; fail
   end
   # TODO: also render names that are just common for all saves, no matter if they have quest or not
-  image.prepare_text(fx(x), fy(y), names_other.include?(npc["character_name"]) ? npc["character_name"] : npc["name"], 80) if draw_name && npc["name"] != "esc_novice_attacker3"
+  image.prepare_text(fx(x), fy(y), names_other.all?{ |other|
+    other.include?(npc["character_name"])
+  } ? npc["character_name"] : npc["name"], 80) if draw_name && npc["name"] != "esc_novice_attacker3"
 end.compact
 begin
   moved = false

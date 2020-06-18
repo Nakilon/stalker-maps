@@ -78,6 +78,16 @@ Fixtures = {
     FXA: 1236, FXB: 2.65, FYA: 823, FYB: 2.75,
     LEFT: 100, WIDTH: 1400, TOP: 100, HEIGHT: 1400,
   },
+  "l07_military" => {
+    ALL: 1000,
+    NPCS: 40,
+    MUTANTS: 50,
+    ANOMALIES: 150,
+    ARTIFACTS: 17,
+    BG: "bg_l07.jpg",
+    FXA: 1129, FXB: 2.65, FYA: 1444, FYB: 2.825,
+    LEFT: 50, WIDTH: 1500, HEIGHT: 1700,
+  },
 }
 
 require "yaml"
@@ -124,7 +134,7 @@ module Render
         Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).tap do |image|
           break image.embed 0, 0, image.width + 20, image.height, background: image.shrink(image.width, image.height).getpoint(0, 0)
         end.resize 4, vscale: 4, kernel: :lanczos2
-      when "l04_darkvalley"
+      when "l04_darkvalley", "l07_military"
         Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).resize(2, vscale: 2, kernel: :lanczos2).tap do |image|
           left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
           break image.crop left || 0, top || 0, width || image.width, [(height || image.height), image.height - (top || 0)].min

@@ -33,8 +33,10 @@ not_localized, *rest = [ALL, *ARGV[2,5].map(&YAML.method(:load_file))].map do |_
         fail
       end
     when 2
-      (pp obj; fail) unless obj["custom_data"][0] == ["dont_spawn_character_supplies", []]
-      (pp obj; fail) unless obj["custom_data"][1] == ["spawn",["wpn_mp5_m1", "ammo_9x18_fmj = 3", "medkit", "bandage = 2", "af_cristall_flower"]]
+      (pp obj; fail) unless obj["custom_data"][0] == ["dont_spawn_character_supplies", []] ||
+                            obj["custom_data"][0] == ["smart_terrains", ["mil_freedom = {-aes_arrive_to}"]]
+      (pp obj; fail) unless obj["custom_data"][1] == ["spawn",["wpn_mp5_m1", "ammo_9x18_fmj = 3", "medkit", "bandage = 2", "af_cristall_flower"]] ||
+                            obj["custom_data"][1] == ["spawn", ["vodka = 4", "medkit = 5", "kolbasa = 3", "bread = 2", "conserva = 3", "antirad = 2", "bandage = 4", ";wpn_groza = 2", "af_cristall = 1"]]
     else
       fail
     end

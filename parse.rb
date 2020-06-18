@@ -39,8 +39,8 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
     when /\Ainfo_\d\d?:[A-Za-z_]+ = [\d:]+\z/
     when /\A(name) = ([a-z_][a-z_\d\.-]*)\z/ ; [$1, $2]
     when /\A(visual_name) = ([A-Za-z_\d\\-]+)\z/ ; [$1, $2.downcase]
-    when /\A(specific_character) = ([a-z_\d]+)\z/ ; [$1, $2]
-    when /\A(character_name) = ([А-Яа-яё "\.]+)\z/ ; [$1, $2]
+    when /\A(specific_character) = ([A-Za-z_\d]+)\z/ ; [$1, $2]
+    when /\A(character_name) = ([cА-Яа-яё "\.]+)\z/ ; [$1, $2]
     when /\A(section_name) = ([a-z_\d\.-]+)\z/ ; [$1, $2]
     when /\A(dest_level_name) = ([A-Za-z_\d]+)\z/ ; [$1, $2.downcase]
     when /\A(custom_data) = (cond = 0\.2)\z/ ; [$1, $2]
