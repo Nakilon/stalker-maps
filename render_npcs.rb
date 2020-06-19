@@ -14,7 +14,8 @@ end.compact
 puts "NPC: #{npcs.size}"
 abort "< #{Fixtures.fetch(ARGV[1])[:NPCS]}" if npcs.size < Fixtures.fetch(ARGV[1])[:NPCS]
 
-image = Render.prepare_image "rus"
+[%w{ rus жив ранен мертв }, %w{ eng healthy wounded dead }].each do |locale, healthy, wounded, dead|
+image = Render.prepare_image locale
 colors = [p,p,p,[192,192,192],p,[0,150,0],[0,0,192],[192,192,0],[192,0,0],[192,128,0],[192,128,128]]
 # communities   = actor, 0, actor_dolg, 1, actor_freedom, 2, stalker, 5, monolith, 6, military, 7, killer, 8, ecolog, 9, dolg, 10, freedom, 11, bandit, 12, zombied, 13, stranger, 14, trader, 15, arena_enemy, 16
 
@@ -22,6 +23,11 @@ names_other = ARGV.drop(2).map do |file|
   YAML.load_file(file).map{ |item| item["character_name"] }
 end
 # data
+strings = File.read("out/config/text/#{locale}/stable_bio_name.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
+require "nokogiri"
+specific_character_name = (Dir.glob("out/config/gameplay/character_desc_*.xml") - ["out/config/gameplay/character_desc_dar.xml"]).flat_map do |f|
+  Nokogiri::XML(File.read(f, encoding: "CP1251").encode("utf-8", "cp1251").gsub("\r\n", "\n").gsub(/^\s*<!--.+-->/,"")).css("specific_character").map{ |c| [c["id"], c.at_css("name").text] }
+end.to_h
 names = npcs.map do |npc|
   health = npc["health"] || npc["upd:health"]
   fail npc["id"].to_s unless health
@@ -44,7 +50,9 @@ names = npcs.map do |npc|
   # TODO: also render names that are just common for all saves, no matter if they have quest or not
   image.prepare_text(fx(x), fy(y), names_other.all?{ |other|
     other.include?(npc["character_name"])
-  } ? npc["character_name"] : npc["name"], 80) if draw_name && npc["name"] != "esc_novice_attacker3"
+  } ? strings.fetch(specific_character_name.fetch npc["specific_character"]).tap do |name|
+    fail unless npc["character_name"] == name if "rus" == locale
+  end : npc["name"], 80) if draw_name && npc["name"] != "esc_novice_attacker3"  # wtf?
 end.compact
 begin
   moved = false
@@ -75,7 +83,7 @@ names.each{ |name| image.image = image.image.composite2(*name).flatten }
 
 # legend
 communities = File.read("out/config/creatures/game_relations.ltx", encoding: "CP1251").encode("utf-8", "cp1251")[/^communities\s*=\s*(.+)/, 1].split(?,).each_slice(2).map(&:first).map &:strip
-strings = File.read("out/config/text/rus/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
+strings = File.read("out/config/text/#{locale}/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
 x, y = 50, 38
 colors.each_with_index do |color, index|
   next unless npcs.any?{ |npc| index == npc["community_index"] }
@@ -85,16 +93,17 @@ colors.each_with_index do |color, index|
 end
 y += 25
 image.image = image.image.draw_circle [192,192,192], x, y, 3, fill: true
-image.image = image.image.composite2(*image.prepare_text(x + 10, y + 2, "жив", 80)).flatten
+image.image = image.image.composite2(*image.prepare_text(x + 10, y + 2, healthy, 80)).flatten
 y += 15
 image.image = image.image.draw_circle [192,192,192], x, y, 3
-image.image = image.image.composite2(*image.prepare_text(x + 10, y + 2, "ранен", 80)).flatten
+image.image = image.image.composite2(*image.prepare_text(x + 10, y + 2, wounded, 80)).flatten
 y += 15
 image.image = image.image.draw_line [192,192,192], x - 3, y - 3, x + 3, y + 3
 image.image = image.image.draw_line [192,192,192], x - 3, y + 3, x + 3, y - 3
-image.image = image.image.composite2(*image.prepare_text(x + 10, y + 2, "мертв", 80)).flatten
+image.image = image.image.composite2(*image.prepare_text(x + 10, y + 2, dead, 80)).flatten
 
-image.image.write_to_file "rendered/#{ARGV[1]}_npcs.jpg", Q: 95
+image.image.write_to_file "rendered/#{ARGV[1]}_npcs_#{locale}.jpg", Q: 95
+end
 
 
 puts "OK"

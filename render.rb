@@ -7,7 +7,7 @@ Fixtures = {
     NPCS: 50,
     MUTANTS: 100,
     ANOMALIES: 150,
-    ARTIFACTS: 19,
+    ARTIFACTS: 18,
     BG: "bg_l01.png",
     FXA: 458, FXB: 1.35, FYA: 1190, FYB: 1.3725,
     TOP: 200, HEIGHT: 1600,

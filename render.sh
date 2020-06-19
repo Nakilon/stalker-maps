@@ -1,4 +1,4 @@
-set -ox
+set -ex
 
 ruby render_npcs.rb l01_escape/1.yaml l01_escape l01_escape/2.yaml l01_escape/3.yaml l01_escape/4.yaml l01_escape/5.yaml
 ruby render_mutants.rb l01_escape/1.yaml l01_escape

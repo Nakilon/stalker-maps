@@ -101,7 +101,6 @@ abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if not_localized.size < Fixture
   end
 
   # legend
-  strings = File.read("out/config/text/#{locale}/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
   x = y = 50
   image.image = image.image.composite2(*image.prepare_text(x, y, total, 160)).flatten
   y += 20

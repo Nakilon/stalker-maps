@@ -29,7 +29,6 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
     when /\Aname = clmbl#\d\d?\z/ ; break []
     when "name = rostok_cheat _sound_restrictor" ; break []
     when "s_gameid = 0x1"
-    when /\Acharacter_profile = [A-Za-z_\d]+\z/
     when /\Ajob_online_condlist = \{+[a-z_\d]+\}\z/
     when /\Abone_\d\d?:[a-z_]+ = \S/
     when /\Ashape_1?\d:[a-z_]+ = \S/
@@ -39,6 +38,7 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
     when /\Ainfo_\d\d?:[A-Za-z_]+ = [\d:]+\z/
     when /\A(name) = ([a-z_][a-z_\d\.-]*)\z/ ; [$1, $2]
     when /\A(visual_name) = ([A-Za-z_\d\\-]+)\z/ ; [$1, $2.downcase]
+    when /\A(character_profile) = ([A-Za-z_\d]+)\z/ ; [$1, $2]
     when /\A(specific_character) = ([A-Za-z_\d]+)\z/ ; [$1, $2]
     when /\A(character_name) = ([cА-Яа-яё "\.]+)\z/ ; [$1, $2]
     when /\A(section_name) = ([a-z_\d\.-]+)\z/ ; [$1, $2]
@@ -89,7 +89,6 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
       spawn_id upd:torch_flags max_power artefact_spawn_count
       g_team g_group g_squad
       ammo_current ammo_elapsed ammo_left
-      character_profile specific_character
       enabled_time disabled_time start_time_shift
       reputation money rank
       smart_terrain_id smart_terrain_task_active job_online
