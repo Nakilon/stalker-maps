@@ -12,11 +12,13 @@ Fixtures = {
     ALL: 750, NPCS: 60, MUTANTS: 40, ANOMALIES: 150, ARTIFACTS: 40,
     BG: "bg_l02.jpg",
     FXA: 810, FXB: 2.65, FYA: 846, FYB: 2.78,
+    RESIZE: 2,
   },
   "l03_agroprom" => {
     ALL: 750, NPCS: 60, MUTANTS: 25, ANOMALIES: 100, ARTIFACTS: 13,
     BG: "bg_l03.jpg",
     FXA: 725, FXB: 2.69, FYA: 625, FYB: 2.925,
+    RESIZE: 2,
   },
   "l03u_agr_underground" => {
     ALL: 250, NPCS: 20, MUTANTS: 2, ANOMALIES: 25, ARTIFACTS: 11,
@@ -28,6 +30,7 @@ Fixtures = {
     BG: "bg_l04.jpg",
     FXA: 971, FXB: 2.875, FYA: 420, FYB: 3.075,
     LEFT: 350, WIDTH: 1400, TOP: 150, HEIGHT: 2000,
+    RESIZE: 2,
   },
   "l04u_labx18" => {
     ALL: 300, NPCS: 8, MUTANTS: 9, ANOMALIES: 12, ARTIFACTS: 3,
@@ -39,24 +42,28 @@ Fixtures = {
     BG: "bg_l05.jpg",
     FXA: -60, FXB: 3.7, FYA: 1110, FYB: 4,
     WIDTH: 1100, TOP: 360, HEIGHT: 1400,
+    RESIZE: 2,
   },
   "l06_rostok" => {
     ALL: 700, NPCS: 47, MUTANTS: 14, ANOMALIES: 50, ARTIFACTS: 20,
     BG: "bg_l06.jpg",
     FXA: 1236, FXB: 2.65, FYA: 823, FYB: 2.75,
     LEFT: 100, WIDTH: 1400, TOP: 100, HEIGHT: 1400,
+    RESIZE: 2,
   },
   "l07_military" => {
     ALL: 1000, NPCS: 40, MUTANTS: 50, ANOMALIES: 150, ARTIFACTS: 17,
     BG: "bg_l07.jpg",
     FXA: 1129, FXB: 2.65, FYA: 1444, FYB: 2.825,
     LEFT: 50, WIDTH: 1500, HEIGHT: 1700,
+    RESIZE: 2,
   },
   "l08_yantar" => {
     ALL: 500, NPCS: 5, MUTANTS: 30, ANOMALIES: 2, ARTIFACTS: 14,
     BG: "bg_l08.jpg",
     FXA: 532, FXB: 2.55, FYA: 432, FYB: 2.69,
     WIDTH: 1150, TOP: 200, HEIGHT: 1200,
+    RESIZE: 2,
   },
 }
 
@@ -83,34 +90,25 @@ end
 module Render
   require "vips"
   def self.prepare_image locale
+    loaded = Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential)
+    loaded = loaded.resize(2, vscale: 2, kernel: :lanczos2) if Fixtures.fetch(ARGV[1]).include? :RESIZE
+    left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
+    loaded = loaded.crop left || 0, top || 0, width || loaded.width, height || loaded.height
     image = case ARGV[1]
-      when "l01_escape"
-        Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).flatten.tap do |image|
-          left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
-          break image.crop left || 0, top || 0, width || image.width, [(height || image.height), image.height - (top || 0)].min
-        end
-      when "l02_garbage", "l03_agroprom" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).resize 2, vscale: 2, kernel: :lanczos2
+      when "l01_escape", "l02_garbage", "l03_agroprom", "l04_darkvalley", "l07_military"
+        loaded
       when "l05_bar", "l08_yantar"
-        Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).resize(2, vscale: 2, kernel: :lanczos2).tap do |image|
-          left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
-          break image.crop left || 0, top || 0, width || image.width, [(height || image.height), image.height - (top || 0)].min
-        end * 0.7
-      when "l04u_labx18" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential) * [1, 0.85, 1]
-      when "l06_rostok" ; Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).resize(2, vscale: 2, kernel: :lanczos2).tap do |image|
-          left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
-          break image.crop left || 0, top || 0, width || image.width, [(height || image.height), image.height - (top || 0)].min
-        end * 0.7
+        loaded * 0.7
+      when "l04u_labx18"
+        loaded * [1, 0.85, 1]
+      when "l06_rostok"
+        loaded * 0.7
       when "l03u_agr_underground"
-        Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).tap do |image|
-          break image.embed 0, 0, image.width + 20, image.height, background: image.shrink(image.width, image.height).getpoint(0, 0)
-        end.resize 4, vscale: 4, kernel: :lanczos2
-      when "l04_darkvalley", "l07_military"
-        Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential).resize(2, vscale: 2, kernel: :lanczos2).tap do |image|
-          left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
-          break image.crop left || 0, top || 0, width || image.width, [(height || image.height), image.height - (top || 0)].min
-        end
-      when /\A(\d+)x(\d+)\z/ ; Vips::Image.black $1.to_i, $2.to_i
-      else ; fail
+        loaded.embed(0, 0, loaded.width + 20, loaded.height, background: loaded.shrink(loaded.width, loaded.height).getpoint(0, 0)).resize 4, vscale: 4, kernel: :lanczos2
+      when /\A(\d+)x(\d+)\z/
+        Vips::Image.black $1.to_i, $2.to_i
+      else
+        fail
     end
     Struct.new :image do
       def prepare_text_only x, text, dpi
