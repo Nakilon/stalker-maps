@@ -97,12 +97,10 @@ module Render
     image = case ARGV[1]
       when "l01_escape", "l02_garbage", "l03_agroprom", "l04_darkvalley", "l07_military"
         loaded
-      when "l05_bar", "l08_yantar"
+      when "l05_bar", "l06_rostok", "l08_yantar"
         loaded * 0.7
       when "l04u_labx18"
         loaded * [1, 0.85, 1]
-      when "l06_rostok"
-        loaded * 0.7
       when "l03u_agr_underground"
         loaded.embed(0, 0, loaded.width + 20, loaded.height, background: loaded.shrink(loaded.width, loaded.height).getpoint(0, 0)).resize 4, vscale: 4, kernel: :lanczos2
       when /\A(\d+)x(\d+)\z/
