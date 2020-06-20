@@ -71,6 +71,11 @@ Fixtures = {
     FXA: 600, FXB: 4.05, FYA: 106, FYB: 4.2,
     RESIZE: 2,
   },
+  "l10_radar" => {
+    ALL: 1000, NPCS: 35, MUTANTS: 17, ANOMALIES: 200, ARTIFACTS: 6,
+    BG: "bg_l10.jpg",
+    FXA: 157, FXB: 1.27, FYA: 350, FYB: 1.34,
+  },
 }
 
 require "yaml"
@@ -107,6 +112,8 @@ module Render
         loaded * 0.7
       when "l04u_labx18"
         loaded * [1, 0.85, 1]
+      when "l10_radar"
+        loaded.embed(0, 50, loaded.width + 50, loaded.height + 50, background: loaded.shrink(loaded.width, loaded.height).getpoint(0, 0)) * [1.1, 0.8, 0.65]
       when "l03u_agr_underground"
         loaded.embed(0, 0, loaded.width + 20, loaded.height, background: loaded.shrink(loaded.width, loaded.height).getpoint(0, 0)).resize 4, vscale: 4, kernel: :lanczos2
       when "l08u_brainlab"

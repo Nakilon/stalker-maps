@@ -15,9 +15,10 @@ short = {
   "mincer" => "M",
   "minefield" => "ſ",
   "radioactive" => "☢",
-  "witchesgalantine" => "W",
+  "witchesgalantine" => "ϟ",
   "gravi" => "G",
   "zharka_static" => "🔥",
+  "burningfuzz" => "ዣ",
 }
 
 # data
@@ -71,7 +72,8 @@ begin
   puts "#{moved} texts moved"
 end until moved.zero?
 
-names.each{ |_, *name| image.image = image.image.composite2(*name).flatten }
+texts, xs, ys = names.map{ |_, text, _, xy| [text, xy[:x], xy[:y]] }.transpose
+image.image = image.image.composite texts, :over, x: xs, y: ys
 
 image.image.write_to_file "rendered/#{ARGV[1]}_anomalies.jpg", Q: 95
 

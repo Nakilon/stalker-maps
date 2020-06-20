@@ -77,3 +77,10 @@ vips jpegsave rendered/l08u_brainlab_mutants_eng.jpg preview/l08u_brainlab_mutan
 vips jpegsave rendered/l08u_brainlab_mutants_rus.jpg preview/l08u_brainlab_mutants_rus.jpg --Q 20
 vips jpegsave rendered/l08u_brainlab_npcs_eng.jpg preview/l08u_brainlab_npcs_eng.jpg --Q 20
 vips jpegsave rendered/l08u_brainlab_npcs_rus.jpg preview/l08u_brainlab_npcs_rus.jpg --Q 20
+vips jpegsave rendered/l10_radar_anomalies.jpg preview/l10_radar_anomalies.jpg --Q 20
+vips jpegsave rendered/l10_radar_artifacts_eng.jpg preview/l10_radar_artifacts_eng.jpg --Q 20
+vips jpegsave rendered/l10_radar_artifacts_rus.jpg preview/l10_radar_artifacts_rus.jpg --Q 20
+vips jpegsave rendered/l10_radar_mutants_eng.jpg preview/l10_radar_mutants_eng.jpg --Q 20
+vips jpegsave rendered/l10_radar_mutants_rus.jpg preview/l10_radar_mutants_rus.jpg --Q 20
+vips jpegsave rendered/l10_radar_npcs_eng.jpg preview/l10_radar_npcs_eng.jpg --Q 20
+vips jpegsave rendered/l10_radar_npcs_rus.jpg preview/l10_radar_npcs_rus.jpg --Q 20

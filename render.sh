@@ -44,3 +44,7 @@ ruby render_npcs.rb l08u_brainlab/1.yaml l08u_brainlab l08u_brainlab/2.yaml l08u
 ruby render_mutants.rb l08u_brainlab/1.yaml l08u_brainlab
 ruby render_anomalies.rb l08u_brainlab/1.yaml l08u_brainlab
 ruby render_artifacts.rb l08u_brainlab/1.yaml l08u_brainlab l08u_brainlab/2.yaml l08u_brainlab/3.yaml l08u_brainlab/4.yaml l08u_brainlab/5.yaml
+ruby render_npcs.rb l10_radar/1.yaml l10_radar l10_radar/2.yaml l10_radar/3.yaml l10_radar/4.yaml l10_radar/5.yaml
+ruby render_mutants.rb l10_radar/1.yaml l10_radar
+ruby render_anomalies.rb l10_radar/1.yaml l10_radar
+ruby render_artifacts.rb l10_radar/1.yaml l10_radar l10_radar/2.yaml l10_radar/3.yaml l10_radar/4.yaml l10_radar/5.yaml

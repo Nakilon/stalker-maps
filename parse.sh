@@ -66,3 +66,9 @@ ruby parse.rb master/2/alife_l08u_brainlab.ltx > l08u_brainlab/2.yaml
 ruby parse.rb master/3/alife_l08u_brainlab.ltx > l08u_brainlab/3.yaml
 ruby parse.rb master/4/alife_l08u_brainlab.ltx > l08u_brainlab/4.yaml
 ruby parse.rb master/5/alife_l08u_brainlab.ltx > l08u_brainlab/5.yaml
+mkdir -p l10_radar
+ruby parse.rb master/1/alife_l10_radar.ltx > l10_radar/1.yaml
+ruby parse.rb master/2/alife_l10_radar.ltx > l10_radar/2.yaml
+ruby parse.rb master/3/alife_l10_radar.ltx > l10_radar/3.yaml
+ruby parse.rb master/4/alife_l10_radar.ltx > l10_radar/4.yaml
+ruby parse.rb master/5/alife_l10_radar.ltx > l10_radar/5.yaml

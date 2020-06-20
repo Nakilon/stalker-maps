@@ -4,9 +4,7 @@ $ rg -Np "section_name: (.+)" l04_darkvalley/1.yaml -r '$1' | sort | uniq -c | s
 
 $ bash ./parse.sh
 $ bash ./render.sh
-$ bash ./gsutil.sh
-$ bash ./jpegsave.sh
-$ gsutil -m cp preview/* gs://heavy.www.nakilon.pro/stalker_preview/
+$ bash ./jpegsave.sh && bash ./gsutil.sh && gsutil -m cp preview/* gs://heavy.www.nakilon.pro/stalker_preview/
 $ haml -q stalker.haml ../../www-nakilon-pro/www.nakilon.pro/stalker.htm
 
 $ ruby debug.rb l04_darkvalley/1.yaml 4000x4000 l04_darkvalley/1.yaml l04_darkvalley/2.yaml l04_darkvalley/3.yaml l04_darkvalley/4.yaml l04_darkvalley/5.yaml 1500 5 1000 5 999 m_bloodsucker_e stalker bloodsucker_normal

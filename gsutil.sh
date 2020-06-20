@@ -59,3 +59,4 @@ gsutil cp rendered/l06_rostok_npcs_eng.jpg gs://heavy.www.nakilon.pro/stalker_v2
 gsutil -m cp rendered/l07_military_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
 gsutil -m cp rendered/l08_yantar_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
 gsutil -m cp rendered/l08u_brainlab_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
+gsutil -m cp rendered/l10_radar_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
