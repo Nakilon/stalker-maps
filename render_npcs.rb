@@ -1,7 +1,7 @@
 require_relative "render"
 
 npcs = ALL.select do |item|
-  next unless %w{ stalker stalker_trader }.include? item["section_name"]
+  next unless %w{ stalker stalker_zombied stalker_monolith stalker_trader }.include? item["section_name"]
   next if 1 == item["community_index"] # actor_dolg
   next if 14 == item["community_index"] # arena_enemy
   if t = item["custom_data"].to_h["spawner"]
@@ -16,7 +16,17 @@ abort "< #{Fixtures.fetch(ARGV[1])[:NPCS]}" if npcs.size < Fixtures.fetch(ARGV[1
 
 [%w{ rus жив ранен мертв }, %w{ eng healthy wounded dead }].each do |locale, healthy, wounded, dead|
 image = Render.prepare_image locale
-colors = [p,p,p,[192,192,192],p,[0,150,0],[0,0,192],[192,192,0],[192,0,0],[192,128,0],[192,128,128]]
+colors = [p,p,p,
+  [192,192,192],    # loner
+  [96,150,224],     # monolith
+  [0,150,0],        # military
+  [0,0,192],        # merc
+  [192,192,0],      # ecolog
+  [192,0,0],        # duty
+  [192,128,0],      # freedom
+  [192,128,128],    # bandit
+  [150,64,150],     # zombi
+]
 # communities   = actor, 0, actor_dolg, 1, actor_freedom, 2, stalker, 5, monolith, 6, military, 7, killer, 8, ecolog, 9, dolg, 10, freedom, 11, bandit, 12, zombied, 13, stranger, 14, trader, 15, arena_enemy, 16
 
 names_other = ARGV.drop(2).map do |file|
