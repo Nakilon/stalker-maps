@@ -28,6 +28,7 @@ all = read.gsub("\r\n", "\n").gsub(/<<END\n(.*?)\nEND/m){ |_| magic + Base64.str
     when /\Aname = meshes\\brkbl#\d+\.ogf\z/ ; break []
     when /\Aname = clmbl#\d\d?\z/ ; break []
     when "name = rostok_cheat _sound_restrictor" ; break []
+    when "name = yan_attack zombies_space_restrictor" ; break []
     when "s_gameid = 0x1"
     when /\Ajob_online_condlist = \{+[a-z_\d]+\}\z/
     when /\Abone_\d\d?:[a-z_]+ = \S/

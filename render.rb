@@ -5,7 +5,7 @@ Fixtures = {
   "l01_escape" => {
     ALL: 1000, NPCS: 50, MUTANTS: 100, ANOMALIES: 150, ARTIFACTS: 18,
     BG: "bg_l01.png",
-    FXA: 458, FXB: 1.35, FYA: 1190, FYB: 1.3725,
+    FXA: 456, FXB: 1.36, FYA: 1190, FYB: 1.3725,
     TOP: 200, HEIGHT: 1600,
   },
   "l02_garbage" => {
@@ -23,7 +23,7 @@ Fixtures = {
   "l03u_agr_underground" => {
     ALL: 250, NPCS: 20, MUTANTS: 2, ANOMALIES: 25, ARTIFACTS: 11,
     BG: "bg_l03u.jpg",
-    FXA: 1140, FXB: 8.35, FYA: 415, FYB: 8.265,
+    FXA: 1135, FXB: 8.37, FYA: 420, FYB: 8.23,
   },
   "l04_darkvalley" => {
     ALL: 1000, NPCS: 90, MUTANTS: 75, ANOMALIES: 50, ARTIFACTS: 20,
@@ -35,26 +35,26 @@ Fixtures = {
   "l04u_labx18" => {
     ALL: 300, NPCS: 8, MUTANTS: 9, ANOMALIES: 12, ARTIFACTS: 3,
     BG: "bg_l04u.jpg",
-    FXA: 515, FXB: 10, FYA: 680, FYB: 8.5,
+    FXA: 515, FXB: 10, FYA: 680, FYB: 8.4,
   },
   "l05_bar" => {
     ALL: 600, NPCS: 50, MUTANTS: 35, ANOMALIES: 9, ARTIFACTS: 6,
     BG: "bg_l05.jpg",
-    FXA: -60, FXB: 3.7, FYA: 1110, FYB: 4,
+    FXA: -80, FXB: 3.8, FYA: 1113, FYB: 4.05,
     WIDTH: 1100, TOP: 360, HEIGHT: 1400,
     RESIZE: 2,
   },
   "l06_rostok" => {
     ALL: 700, NPCS: 47, MUTANTS: 14, ANOMALIES: 50, ARTIFACTS: 20,
     BG: "bg_l06.jpg",
-    FXA: 1236, FXB: 2.65, FYA: 823, FYB: 2.75,
+    FXA: 1230, FXB: 2.6, FYA: 823, FYB: 2.75,
     LEFT: 100, WIDTH: 1400, TOP: 100, HEIGHT: 1400,
     RESIZE: 2,
   },
   "l07_military" => {
     ALL: 1000, NPCS: 40, MUTANTS: 50, ANOMALIES: 150, ARTIFACTS: 17,
     BG: "bg_l07.jpg",
-    FXA: 1129, FXB: 2.65, FYA: 1444, FYB: 2.825,
+    FXA: 1129, FXB: 2.65, FYA: 1447, FYB: 2.825,
     LEFT: 50, WIDTH: 1500, HEIGHT: 1700,
     RESIZE: 2,
   },
@@ -63,6 +63,12 @@ Fixtures = {
     BG: "bg_l08.jpg",
     FXA: 532, FXB: 2.55, FYA: 432, FYB: 2.69,
     WIDTH: 1150, TOP: 200, HEIGHT: 1200,
+    RESIZE: 2,
+  },
+  "l08u_brainlab" => {
+    ALL: 250, NPCS: 1, MUTANTS: 7, ANOMALIES: 15, ARTIFACTS: 1,
+    BG: "bg_l08u.jpg",
+    FXA: 600, FXB: 4.05, FYA: 106, FYB: 4.2,
     RESIZE: 2,
   },
 }
@@ -90,7 +96,7 @@ end
 module Render
   require "vips"
   def self.prepare_image locale
-    loaded = Vips::Image.new_from_file(Fixtures.fetch(ARGV[1])[:BG], access: :sequential)
+    loaded = Vips::Image.new_from_file Fixtures.fetch(ARGV[1])[:BG]
     loaded = loaded.resize(2, vscale: 2, kernel: :lanczos2) if Fixtures.fetch(ARGV[1]).include? :RESIZE
     left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
     loaded = loaded.crop left || 0, top || 0, width || loaded.width, height || loaded.height
@@ -103,6 +109,8 @@ module Render
         loaded * [1, 0.85, 1]
       when "l03u_agr_underground"
         loaded.embed(0, 0, loaded.width + 20, loaded.height, background: loaded.shrink(loaded.width, loaded.height).getpoint(0, 0)).resize 4, vscale: 4, kernel: :lanczos2
+      when "l08u_brainlab"
+        loaded.embed(0, 0, loaded.width, loaded.height + 30, background: loaded.shrink(loaded.width, loaded.height).getpoint(0, 0))
       when /\A(\d+)x(\d+)\z/
         Vips::Image.black $1.to_i, $2.to_i
       else

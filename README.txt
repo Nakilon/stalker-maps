@@ -10,6 +10,7 @@ $ gsutil -m cp preview/* gs://heavy.www.nakilon.pro/stalker_preview/
 $ haml -q stalker.haml ../../www-nakilon-pro/www.nakilon.pro/stalker.htm
 
 $ ruby debug.rb l04_darkvalley/1.yaml 4000x4000 l04_darkvalley/1.yaml l04_darkvalley/2.yaml l04_darkvalley/3.yaml l04_darkvalley/4.yaml l04_darkvalley/5.yaml 1500 5 1000 5 999 m_bloodsucker_e stalker bloodsucker_normal
+$ ruby render_dots.rb l04u_labx18/1.yaml l04u_labx18
 
 v the most outdated code v
 render_npcs.rb

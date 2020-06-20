@@ -54,3 +54,15 @@ ruby parse.rb master/2/alife_l07_military.ltx > l07_military/2.yaml
 ruby parse.rb master/3/alife_l07_military.ltx > l07_military/3.yaml
 ruby parse.rb master/4/alife_l07_military.ltx > l07_military/4.yaml
 ruby parse.rb master/5/alife_l07_military.ltx > l07_military/5.yaml
+mkdir -p l08_yantar
+ruby parse.rb master/1/alife_l08_yantar.ltx > l08_yantar/1.yaml
+ruby parse.rb master/2/alife_l08_yantar.ltx > l08_yantar/2.yaml
+ruby parse.rb master/3/alife_l08_yantar.ltx > l08_yantar/3.yaml
+ruby parse.rb master/4/alife_l08_yantar.ltx > l08_yantar/4.yaml
+ruby parse.rb master/5/alife_l08_yantar.ltx > l08_yantar/5.yaml
+mkdir -p l08u_brainlab
+ruby parse.rb master/1/alife_l08u_brainlab.ltx > l08u_brainlab/1.yaml
+ruby parse.rb master/2/alife_l08u_brainlab.ltx > l08u_brainlab/2.yaml
+ruby parse.rb master/3/alife_l08u_brainlab.ltx > l08u_brainlab/3.yaml
+ruby parse.rb master/4/alife_l08u_brainlab.ltx > l08u_brainlab/4.yaml
+ruby parse.rb master/5/alife_l08u_brainlab.ltx > l08u_brainlab/5.yaml

@@ -70,3 +70,10 @@ vips jpegsave rendered/l08_yantar_mutants_eng.jpg preview/l08_yantar_mutants_eng
 vips jpegsave rendered/l08_yantar_mutants_rus.jpg preview/l08_yantar_mutants_rus.jpg --Q 20
 vips jpegsave rendered/l08_yantar_npcs_eng.jpg preview/l08_yantar_npcs_eng.jpg --Q 20
 vips jpegsave rendered/l08_yantar_npcs_rus.jpg preview/l08_yantar_npcs_rus.jpg --Q 20
+vips jpegsave rendered/l08u_brainlab_anomalies.jpg preview/l08u_brainlab_anomalies.jpg --Q 20
+vips jpegsave rendered/l08u_brainlab_artifacts_eng.jpg preview/l08u_brainlab_artifacts_eng.jpg --Q 20
+vips jpegsave rendered/l08u_brainlab_artifacts_rus.jpg preview/l08u_brainlab_artifacts_rus.jpg --Q 20
+vips jpegsave rendered/l08u_brainlab_mutants_eng.jpg preview/l08u_brainlab_mutants_eng.jpg --Q 20
+vips jpegsave rendered/l08u_brainlab_mutants_rus.jpg preview/l08u_brainlab_mutants_rus.jpg --Q 20
+vips jpegsave rendered/l08u_brainlab_npcs_eng.jpg preview/l08u_brainlab_npcs_eng.jpg --Q 20
+vips jpegsave rendered/l08u_brainlab_npcs_rus.jpg preview/l08u_brainlab_npcs_rus.jpg --Q 20

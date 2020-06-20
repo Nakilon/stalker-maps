@@ -97,7 +97,7 @@ abort "< #{Fixtures.fetch(ARGV[1])[:ARTIFACTS]}" if not_localized.size < Fixture
   names = not_localized.map do |name_s, name_p, fill, x, y, size, color|
     name_s = name_s.is_a?(String) ? localize[name_s] : name_s.map(&localize)
     image.image = image.image.draw_circle [255, 255, 255], fx(x), fy(y), 2, fill: fill
-    [name_s, name_p[name_s, locale, word], *image.prepare_text(fx(x), fy(y), name_p[name_s, locale, word], size, *color)]
+    [name_s, name_p[name_s, locale, word], *image.prepare_text(fx(x), fy(y) - 3, name_p[name_s, locale, word], size, *color)]
   end
 
   # legend

@@ -12,11 +12,8 @@
 
 /bg_l*.jpg
 /bg_l01.png
-/proto
-/rendered
-/preview
-/debug.png
-
-#/*.zip
-#/*.jpg
-#/*.png
+#/proto
+#/rendered
+#/preview
+*.jpg
+*.png
