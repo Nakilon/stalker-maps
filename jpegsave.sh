@@ -63,3 +63,10 @@ vips jpegsave rendered/l07_military_mutants_eng.jpg preview/l07_military_mutants
 vips jpegsave rendered/l07_military_mutants_rus.jpg preview/l07_military_mutants_rus.jpg --Q 20
 vips jpegsave rendered/l07_military_npcs_eng.jpg preview/l07_military_npcs_eng.jpg --Q 20
 vips jpegsave rendered/l07_military_npcs_rus.jpg preview/l07_military_npcs_rus.jpg --Q 20
+vips jpegsave rendered/l08_yantar_anomalies.jpg preview/l08_yantar_anomalies.jpg --Q 20
+vips jpegsave rendered/l08_yantar_artifacts_eng.jpg preview/l08_yantar_artifacts_eng.jpg --Q 20
+vips jpegsave rendered/l08_yantar_artifacts_rus.jpg preview/l08_yantar_artifacts_rus.jpg --Q 20
+vips jpegsave rendered/l08_yantar_mutants_eng.jpg preview/l08_yantar_mutants_eng.jpg --Q 20
+vips jpegsave rendered/l08_yantar_mutants_rus.jpg preview/l08_yantar_mutants_rus.jpg --Q 20
+vips jpegsave rendered/l08_yantar_npcs_eng.jpg preview/l08_yantar_npcs_eng.jpg --Q 20
+vips jpegsave rendered/l08_yantar_npcs_rus.jpg preview/l08_yantar_npcs_rus.jpg --Q 20

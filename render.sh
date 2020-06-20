@@ -36,3 +36,7 @@ ruby render_npcs.rb l07_military/1.yaml l07_military l07_military/2.yaml l07_mil
 ruby render_mutants.rb l07_military/1.yaml l07_military
 ruby render_anomalies.rb l07_military/1.yaml l07_military
 ruby render_artifacts.rb l07_military/1.yaml l07_military l07_military/1.yaml l07_military/2.yaml l07_military/3.yaml l07_military/4.yaml l07_military/5.yaml
+ruby render_npcs.rb l08_yantar/1.yaml l08_yantar l08_yantar/2.yaml l08_yantar/3.yaml l08_yantar/4.yaml l08_yantar/5.yaml
+ruby render_mutants.rb l08_yantar/1.yaml l08_yantar
+ruby render_anomalies.rb l08_yantar/1.yaml l08_yantar
+ruby render_artifacts.rb l08_yantar/1.yaml l08_yantar l08_yantar/1.yaml l08_yantar/2.yaml l08_yantar/3.yaml l08_yantar/4.yaml l08_yantar/5.yaml

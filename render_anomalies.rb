@@ -21,10 +21,12 @@ short = {
 }
 
 # data
+was_moskito = false
 names = objs.map do |obj|
   x, _, y = obj["position"]
   name = db[obj["section_name"]]
   if "mosquitobald" == name
+    was_moskito = true
     image.image = image.image.draw_circle [192, 192, 192], fx(x), fy(y), 2, fill: true
     next
   end
@@ -35,13 +37,16 @@ end.compact
 # legend
 strings = File.read("out/config/text/eng/string_table_general.xml", encoding: "CP1251").encode("utf-8", "cp1251").scan(/([^"]+)">..+?>([^<]+)/m).to_h
 x = y = 50
-image.image = image.image.draw_circle [192, 192, 192], x, y, 2, fill: true
-# TODO: maybe use some Unicode dot?
-image.image = image.image.composite2(*image.prepare_text(x + 10, y, "mosquitobald")).flatten
+if was_moskito
+  image.image = image.image.draw_circle [192, 192, 192], x, y, 2, fill: true
+  # TODO: maybe use some Unicode dot?
+  image.image = image.image.composite2(*image.prepare_text(x + 10, y, "mosquitobald")).flatten
+  y += 20
+end
 short.each do |long, short|
   next unless names.assoc short
-  y += 20
   image.image = image.image.composite2(*image.prepare_text(x - 10, y, "#{short}  #{long}")).flatten
+  y += 20
 end
 
 begin
