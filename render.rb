@@ -87,6 +87,11 @@ Fixtures = {
     FXA: 363, FXB: 0.93, FYA: 514, FYB: 0.96,
     LEFT: 40, WIDTH: 670, TOP: 50, HEIGHT: 800,
   },
+  "l12_stancia" => {
+    ALL: 750, NPCS: 80, MUTANTS: 0, ANOMALIES: 60, ARTIFACTS: 0,
+    BG: "bg_l12.jpg",
+    FXA: 93, FXB: 0.865, FYA: 538, FYB: 0.925,
+  },
 }
 
 require "yaml"
@@ -117,7 +122,7 @@ module Render
     left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
     loaded = loaded.crop left || 0, top || 0, width || loaded.width, height || loaded.height
     image = case ARGV[1]
-      when "l01_escape", "l02_garbage", "l03_agroprom", "l04_darkvalley", "l07_military", "l11_pripyat"
+      when "l01_escape", "l02_garbage", "l03_agroprom", "l04_darkvalley", "l07_military", "l11_pripyat", "l12_stancia"
         loaded
       when "l05_bar", "l06_rostok", "l08_yantar"
         loaded * 0.7
@@ -137,7 +142,7 @@ module Render
       when /\A(\d+)x(\d+)\z/
         Vips::Image.black $1.to_i, $2.to_i
       else
-        fail
+        abort "unknown location #{ARGV[1].inspect}"
     end
     Struct.new :image do
       def prepare_text_only x, text, dpi

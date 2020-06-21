@@ -62,3 +62,4 @@ gsutil -m cp rendered/l08u_brainlab_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
 gsutil -m cp rendered/l10_radar_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
 gsutil -m cp rendered/l10u_bunker_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
 gsutil -m cp rendered/l11_pripyat_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
+gsutil -m cp rendered/l12_stancia_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/

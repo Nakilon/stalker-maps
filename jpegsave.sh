@@ -98,3 +98,10 @@ vips jpegsave rendered/l11_pripyat_mutants_eng.jpg preview/l11_pripyat_mutants_e
 vips jpegsave rendered/l11_pripyat_mutants_rus.jpg preview/l11_pripyat_mutants_rus.jpg --Q 20
 vips jpegsave rendered/l11_pripyat_npcs_eng.jpg preview/l11_pripyat_npcs_eng.jpg --Q 20
 vips jpegsave rendered/l11_pripyat_npcs_rus.jpg preview/l11_pripyat_npcs_rus.jpg --Q 20
+vips jpegsave rendered/l12_stancia_anomalies.jpg preview/l12_stancia_anomalies.jpg --Q 20
+vips jpegsave rendered/l12_stancia_artifacts_eng.jpg preview/l12_stancia_artifacts_eng.jpg --Q 20
+vips jpegsave rendered/l12_stancia_artifacts_rus.jpg preview/l12_stancia_artifacts_rus.jpg --Q 20
+vips jpegsave rendered/l12_stancia_mutants_eng.jpg preview/l12_stancia_mutants_eng.jpg --Q 20
+vips jpegsave rendered/l12_stancia_mutants_rus.jpg preview/l12_stancia_mutants_rus.jpg --Q 20
+vips jpegsave rendered/l12_stancia_npcs_eng.jpg preview/l12_stancia_npcs_eng.jpg --Q 20
+vips jpegsave rendered/l12_stancia_npcs_rus.jpg preview/l12_stancia_npcs_rus.jpg --Q 20
