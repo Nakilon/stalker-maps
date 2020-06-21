@@ -1,3 +1,14 @@
+                 OPENSOURCED IT AS A SIGN THAT I BELIEVE THAT
+      S.T.A.L.K.E.R. RELATED MODDING AND OTHER DEVELOPMENT SHOULD BE OPEN
+
+###############################################################################
+
+
+(the rest of this file are technical notes that were not supposed
+ to be in a public README so you don't have to read it immediately)
+
+
+
 $ find master/1/ -name "alife_l*" -exec sh -c "printf {}; grep -rI 'crow' {} | wc -l" \; | awk '{ print $2 "\t" $1 }' | sort -rn
 $ rg -I -r \$1 "money = (.+)" master/1/ | sort -n | uniq -c
 $ rg -Np "section_name: (.+)" l04_darkvalley/1.yaml -r '$1' | sort | uniq -c | sort -nr | head
