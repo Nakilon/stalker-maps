@@ -48,3 +48,11 @@ ruby render_npcs.rb l10_radar/1.yaml l10_radar l10_radar/2.yaml l10_radar/3.yaml
 ruby render_mutants.rb l10_radar/1.yaml l10_radar
 ruby render_anomalies.rb l10_radar/1.yaml l10_radar
 ruby render_artifacts.rb l10_radar/1.yaml l10_radar l10_radar/2.yaml l10_radar/3.yaml l10_radar/4.yaml l10_radar/5.yaml
+ruby render_npcs.rb l10u_bunker/1.yaml l10u_bunker l10u_bunker/2.yaml l10u_bunker/3.yaml l10u_bunker/4.yaml l10u_bunker/5.yaml
+ruby render_mutants.rb l10u_bunker/1.yaml l10u_bunker
+ruby render_anomalies.rb l10u_bunker/1.yaml l10u_bunker
+ruby render_artifacts.rb l10u_bunker/1.yaml l10u_bunker l10u_bunker/2.yaml l10u_bunker/3.yaml l10u_bunker/4.yaml l10u_bunker/5.yaml
+ruby render_npcs.rb l11_pripyat/1.yaml l11_pripyat l11_pripyat/2.yaml l11_pripyat/3.yaml l11_pripyat/4.yaml l11_pripyat/5.yaml
+ruby render_mutants.rb l11_pripyat/1.yaml l11_pripyat
+ruby render_anomalies.rb l11_pripyat/1.yaml l11_pripyat
+ruby render_artifacts.rb l11_pripyat/1.yaml l11_pripyat l11_pripyat/2.yaml l11_pripyat/3.yaml l11_pripyat/4.yaml l11_pripyat/5.yaml

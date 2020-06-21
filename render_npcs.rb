@@ -54,7 +54,6 @@ names = npcs.map do |npc|
     image.image = image.image.draw_circle color, fx(x), fy(y), 3, fill: true
   elsif health == 2
     image.image = image.image.draw_circle color, fx(x), fy(y), 3, fill: true
-    draw_name = true
   else ; fail
   end
   # TODO: also render names that are just common for all saves, no matter if they have quest or not
@@ -65,7 +64,7 @@ names = npcs.map do |npc|
   end : npc["name"], 80) if draw_name && npc["name"] != "esc_novice_attacker3"  # wtf?
 end.compact
 begin
-  moved = false
+  moved = 0
   names.permutation(2) do |name1, name2|
     t1, _, xy1 = *name1
     t2, _, xy2 = *name2
@@ -73,7 +72,7 @@ begin
                 (xy2[:y] + t2.height > xy1[:y]) &&
                 (xy1[:x] + t1.width  > xy2[:x]) &&
                 (xy2[:x] + t2.width  > xy1[:x])
-    moved = true
+    moved += 1
     if xy1[:y] + t1.height / 2.0 > xy2[:y] + t2.height / 2.0
       name1[2][:y] += 1
       name2[2][:y] -= 1
@@ -88,7 +87,8 @@ begin
       name2[2][:y] += 1
     end
   end
-end while moved
+  puts "#{moved} texts moved"
+end until moved.zero?
 names.each{ |name| image.image = image.image.composite2(*name).flatten }
 
 # legend

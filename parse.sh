@@ -72,3 +72,15 @@ ruby parse.rb master/2/alife_l10_radar.ltx > l10_radar/2.yaml
 ruby parse.rb master/3/alife_l10_radar.ltx > l10_radar/3.yaml
 ruby parse.rb master/4/alife_l10_radar.ltx > l10_radar/4.yaml
 ruby parse.rb master/5/alife_l10_radar.ltx > l10_radar/5.yaml
+mkdir -p l10u_bunker
+ruby parse.rb master/1/alife_l10u_bunker.ltx > l10u_bunker/1.yaml
+ruby parse.rb master/2/alife_l10u_bunker.ltx > l10u_bunker/2.yaml
+ruby parse.rb master/3/alife_l10u_bunker.ltx > l10u_bunker/3.yaml
+ruby parse.rb master/4/alife_l10u_bunker.ltx > l10u_bunker/4.yaml
+ruby parse.rb master/5/alife_l10u_bunker.ltx > l10u_bunker/5.yaml
+mkdir -p l11_pripyat
+ruby parse.rb master/1/alife_l11_pripyat.ltx > l11_pripyat/1.yaml
+ruby parse.rb master/2/alife_l11_pripyat.ltx > l11_pripyat/2.yaml
+ruby parse.rb master/3/alife_l11_pripyat.ltx > l11_pripyat/3.yaml
+ruby parse.rb master/4/alife_l11_pripyat.ltx > l11_pripyat/4.yaml
+ruby parse.rb master/5/alife_l11_pripyat.ltx > l11_pripyat/5.yaml

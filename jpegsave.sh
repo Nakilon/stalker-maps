@@ -84,3 +84,17 @@ vips jpegsave rendered/l10_radar_mutants_eng.jpg preview/l10_radar_mutants_eng.j
 vips jpegsave rendered/l10_radar_mutants_rus.jpg preview/l10_radar_mutants_rus.jpg --Q 20
 vips jpegsave rendered/l10_radar_npcs_eng.jpg preview/l10_radar_npcs_eng.jpg --Q 20
 vips jpegsave rendered/l10_radar_npcs_rus.jpg preview/l10_radar_npcs_rus.jpg --Q 20
+vips jpegsave rendered/l10u_bunker_anomalies.jpg preview/l10u_bunker_anomalies.jpg --Q 20
+vips jpegsave rendered/l10u_bunker_artifacts_eng.jpg preview/l10u_bunker_artifacts_eng.jpg --Q 20
+vips jpegsave rendered/l10u_bunker_artifacts_rus.jpg preview/l10u_bunker_artifacts_rus.jpg --Q 20
+vips jpegsave rendered/l10u_bunker_mutants_eng.jpg preview/l10u_bunker_mutants_eng.jpg --Q 20
+vips jpegsave rendered/l10u_bunker_mutants_rus.jpg preview/l10u_bunker_mutants_rus.jpg --Q 20
+vips jpegsave rendered/l10u_bunker_npcs_eng.jpg preview/l10u_bunker_npcs_eng.jpg --Q 20
+vips jpegsave rendered/l10u_bunker_npcs_rus.jpg preview/l10u_bunker_npcs_rus.jpg --Q 20
+vips jpegsave rendered/l11_pripyat_anomalies.jpg preview/l11_pripyat_anomalies.jpg --Q 20
+vips jpegsave rendered/l11_pripyat_artifacts_eng.jpg preview/l11_pripyat_artifacts_eng.jpg --Q 20
+vips jpegsave rendered/l11_pripyat_artifacts_rus.jpg preview/l11_pripyat_artifacts_rus.jpg --Q 20
+vips jpegsave rendered/l11_pripyat_mutants_eng.jpg preview/l11_pripyat_mutants_eng.jpg --Q 20
+vips jpegsave rendered/l11_pripyat_mutants_rus.jpg preview/l11_pripyat_mutants_rus.jpg --Q 20
+vips jpegsave rendered/l11_pripyat_npcs_eng.jpg preview/l11_pripyat_npcs_eng.jpg --Q 20
+vips jpegsave rendered/l11_pripyat_npcs_rus.jpg preview/l11_pripyat_npcs_rus.jpg --Q 20

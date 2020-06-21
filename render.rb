@@ -76,6 +76,17 @@ Fixtures = {
     BG: "bg_l10.jpg",
     FXA: 157, FXB: 1.27, FYA: 350, FYB: 1.34,
   },
+  "l10u_bunker" => {
+    ALL: 300, NPCS: 30, MUTANTS: 3, ANOMALIES: 6, ARTIFACTS: 0,
+    BG: "bg_l10u.jpg",
+    FXA: 450, FXB: 5, FYA: 480, FYB: 7.5,
+  },
+  "l11_pripyat" => {
+    ALL: 1000, NPCS: 90, MUTANTS: 33, ANOMALIES: 75, ARTIFACTS: 8,
+    BG: "bg_l11.jpg",
+    FXA: 363, FXB: 0.93, FYA: 514, FYB: 0.96,
+    LEFT: 40, WIDTH: 670, TOP: 50, HEIGHT: 800,
+  },
 }
 
 require "yaml"
@@ -106,7 +117,7 @@ module Render
     left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
     loaded = loaded.crop left || 0, top || 0, width || loaded.width, height || loaded.height
     image = case ARGV[1]
-      when "l01_escape", "l02_garbage", "l03_agroprom", "l04_darkvalley", "l07_military"
+      when "l01_escape", "l02_garbage", "l03_agroprom", "l04_darkvalley", "l07_military", "l11_pripyat"
         loaded
       when "l05_bar", "l06_rostok", "l08_yantar"
         loaded * 0.7
@@ -118,6 +129,11 @@ module Render
         loaded.embed(0, 0, loaded.width + 20, loaded.height, background: loaded.shrink(loaded.width, loaded.height).getpoint(0, 0)).resize 4, vscale: 4, kernel: :lanczos2
       when "l08u_brainlab"
         loaded.embed(0, 0, loaded.width, loaded.height + 30, background: loaded.shrink(loaded.width, loaded.height).getpoint(0, 0))
+      when "l10u_bunker"
+        a = loaded.crop 420, 47, 360, 550
+        b = loaded.crop 22, 60, 360, 537
+        a.new_from_image([180, 140, 140]).bandjoin(a.colourspace(:b_w)[0]).composite(
+        b.new_from_image([110, 130, 110]).bandjoin(b.colourspace(:b_w)[0]), :over).resize(2, vscale: 2, kernel: :nearest)
       when /\A(\d+)x(\d+)\z/
         Vips::Image.black $1.to_i, $2.to_i
       else
