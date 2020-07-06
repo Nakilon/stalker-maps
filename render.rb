@@ -91,6 +91,13 @@ Fixtures = {
     ALL: 750, NPCS: 80, MUTANTS: 0, ANOMALIES: 60, ARTIFACTS: 0,
     BG: "bg_l12.jpg",
     FXA: 93, FXB: 0.865, FYA: 538, FYB: 0.925,
+    TOP: 400,
+  },
+  "l12_stancia_2" => {
+    ALL: 800, NPCS: 80, MUTANTS: 16, ANOMALIES: 26, ARTIFACTS: 0,
+    BG: "bg_l12.jpg",
+    FXA: 93, FXB: 0.865, FYA: 538, FYB: 0.925,
+    TOP: 100, HEIGHT: 450,
   },
 }
 
@@ -120,9 +127,9 @@ module Render
     loaded = Vips::Image.new_from_file Fixtures.fetch(ARGV[1])[:BG]
     loaded = loaded.resize(2, vscale: 2, kernel: :lanczos2) if Fixtures.fetch(ARGV[1]).include? :RESIZE
     left, top, width, height = Fixtures.fetch(ARGV[1]).values_at :LEFT, :TOP, :WIDTH, :HEIGHT
-    loaded = loaded.crop left || 0, top || 0, width || loaded.width, height || loaded.height
+    loaded = loaded.crop left || 0, top || 0, width || loaded.width, height || loaded.height - (top || 0)
     image = case ARGV[1]
-      when "l01_escape", "l02_garbage", "l03_agroprom", "l04_darkvalley", "l07_military", "l11_pripyat", "l12_stancia"
+      when "l01_escape", "l02_garbage", "l03_agroprom", "l04_darkvalley", "l07_military", "l11_pripyat", "l12_stancia", "l12_stancia_2"
         loaded
       when "l05_bar", "l06_rostok", "l08_yantar"
         loaded * 0.7
@@ -142,7 +149,7 @@ module Render
       when /\A(\d+)x(\d+)\z/
         Vips::Image.black $1.to_i, $2.to_i
       else
-        abort "unknown location #{ARGV[1].inspect}"
+        abort "unknown location #{ARGV[1].inspect} for Render.prepare_image"
     end
     Struct.new :image do
       def prepare_text_only x, text, dpi

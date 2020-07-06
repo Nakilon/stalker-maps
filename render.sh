@@ -14,7 +14,8 @@ for LOCATION in l01_escape \
                 l10_radar \
                 l10u_bunker \
                 l11_pripyat \
-                l12_stancia; do
+                l12_stancia \
+                l12_stancia_2; do
   ruby render_npcs.rb $LOCATION/1.yaml $LOCATION $LOCATION/2.yaml $LOCATION/3.yaml $LOCATION/4.yaml $LOCATION/5.yaml &&
   ruby render_mutants.rb $LOCATION/1.yaml $LOCATION &&
   ruby render_anomalies.rb $LOCATION/1.yaml $LOCATION &&
