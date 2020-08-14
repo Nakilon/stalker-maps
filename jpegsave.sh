@@ -112,3 +112,17 @@ vips jpegsave rendered/l12_stancia_2_mutants_eng.jpg preview/l12_stancia_2_mutan
 vips jpegsave rendered/l12_stancia_2_mutants_rus.jpg preview/l12_stancia_2_mutants_rus.jpg --Q 20
 vips jpegsave rendered/l12_stancia_2_npcs_eng.jpg preview/l12_stancia_2_npcs_eng.jpg --Q 20
 vips jpegsave rendered/l12_stancia_2_npcs_rus.jpg preview/l12_stancia_2_npcs_rus.jpg --Q 20
+vips jpegsave rendered/l12u_sarcofag_anomalies.jpg preview/l12u_sarcofag_anomalies.jpg --Q 20
+vips jpegsave rendered/l12u_sarcofag_artifacts_eng.jpg preview/l12u_sarcofag_artifacts_eng.jpg --Q 20
+vips jpegsave rendered/l12u_sarcofag_artifacts_rus.jpg preview/l12u_sarcofag_artifacts_rus.jpg --Q 20
+vips jpegsave rendered/l12u_sarcofag_mutants_eng.jpg preview/l12u_sarcofag_mutants_eng.jpg --Q 20
+vips jpegsave rendered/l12u_sarcofag_mutants_rus.jpg preview/l12u_sarcofag_mutants_rus.jpg --Q 20
+vips jpegsave rendered/l12u_sarcofag_npcs_eng.jpg preview/l12u_sarcofag_npcs_eng.jpg --Q 20
+vips jpegsave rendered/l12u_sarcofag_npcs_rus.jpg preview/l12u_sarcofag_npcs_rus.jpg --Q 20
+vips jpegsave rendered/l12u_control_monolith_anomalies.jpg preview/l12u_control_monolith_anomalies.jpg --Q 20
+vips jpegsave rendered/l12u_control_monolith_artifacts_eng.jpg preview/l12u_control_monolith_artifacts_eng.jpg --Q 20
+vips jpegsave rendered/l12u_control_monolith_artifacts_rus.jpg preview/l12u_control_monolith_artifacts_rus.jpg --Q 20
+vips jpegsave rendered/l12u_control_monolith_mutants_eng.jpg preview/l12u_control_monolith_mutants_eng.jpg --Q 20
+vips jpegsave rendered/l12u_control_monolith_mutants_rus.jpg preview/l12u_control_monolith_mutants_rus.jpg --Q 20
+vips jpegsave rendered/l12u_control_monolith_npcs_eng.jpg preview/l12u_control_monolith_npcs_eng.jpg --Q 20
+vips jpegsave rendered/l12u_control_monolith_npcs_rus.jpg preview/l12u_control_monolith_npcs_rus.jpg --Q 20

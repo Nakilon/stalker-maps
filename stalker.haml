@@ -41,26 +41,26 @@
       single-page (#{`du -sh rendered`.split.first}) version is
       %a( href="stalker-single-page.htm" ) here
     %div( style="display: flex; flex-direction: column" )
-      - [                                                             |
-        %w{ Cordon                4 4 6 5 4 6 5 l01_escape           }, |
-        %w{ Garbage               1 1 3 5 1 3 5 l02_garbage          }, |
-        %w{ Agroprom              1 1 3 5 1 3 5 l03_agroprom         }, |
-        %w{ Agroprom\ Underground 1 1 3 1 1 3 1 l03u_agr_underground }, |
-        %w{ Dark\ Valley          1 1 3 1 1 3 1 l04_darkvalley       }, |
-        %w{ X-18                  1 1 3 1 1 3 1 l04u_labx18          }, |
-        %w{ Bar                   1 1 3 1 1 3 1 l05_bar              }, |
-        %w{ Rostok                1 1 2 1 1 2 1 l06_rostok           }, |
-        %w{ Military\ Warehouses  1 1 1 1 1 1 1 l07_military         }, |
-        %w{ Yantar                1 1 1 1 1 1 1 l08_yantar           }, |
-        %w{ X-16                  1 1 1 1 1 1 1 l08u_brainlab        }, |
-        %w{ Radar                 1 1 1 1 1 1 1 l10_radar            }, |
-        %w{ X-10                  1 1 1 1 1 1 1 l10u_bunker          }, |
-        %w{ Pripyat               1 1 1 1 1 1 1 l11_pripyat          }, |
-        %w{ CNPP-1                1 1 1 1 1 1 1 l12_stancia          }, |
-        %w{ CNPP-2                1 1 1 1 1 1 1 l12_stancia_2        }, |
-        %w{ Sarcofag-1            1 1 1 1 1 1 1                      }, |
-        %w{ Sarcofag-2            1 1 1 1 1 1 1                      }, |
-      ].each_with_index do |(h, f1, f2, f3, f4, f5, f6, f7, t), i|      |
+      - [                                                                |
+        %w{ Cordon                4 4 6 5 4 6 5 l01_escape            }, |
+        %w{ Garbage               1 1 3 5 1 3 5 l02_garbage           }, |
+        %w{ Agroprom              1 1 3 5 1 3 5 l03_agroprom          }, |
+        %w{ Agroprom\ Underground 1 1 3 1 1 3 1 l03u_agr_underground  }, |
+        %w{ Dark\ Valley          1 1 3 1 1 3 1 l04_darkvalley        }, |
+        %w{ X-18                  1 1 3 1 1 3 1 l04u_labx18           }, |
+        %w{ Bar                   1 1 3 1 1 3 1 l05_bar               }, |
+        %w{ Rostok                1 1 2 1 1 2 1 l06_rostok            }, |
+        %w{ Military\ Warehouses  1 1 1 1 1 1 1 l07_military          }, |
+        %w{ Yantar                1 1 1 1 1 1 1 l08_yantar            }, |
+        %w{ X-16                  1 1 1 1 1 1 1 l08u_brainlab         }, |
+        %w{ Radar                 1 1 1 1 1 1 1 l10_radar             }, |
+        %w{ X-10                  1 1 1 1 1 1 1 l10u_bunker           }, |
+        %w{ Pripyat               1 1 1 1 1 1 1 l11_pripyat           }, |
+        %w{ CNPP-1                1 1 1 1 1 1 1 l12_stancia           }, |
+        %w{ CNPP-2                1 1 1 1 1 1 1 l12_stancia_2         }, |
+        %w{ Sarcofag-1            1 1 1 1 1 1 1 l12u_sarcofag         }, |
+        %w{ Sarcofag-2            1 1 1 1 1 1 1 l12u_control_monolith }, |
+      ].each_with_index do |(h, f1, f2, f3, f4, f5, f6, f7, t), i|       |
         - require "base64"; id = Base64::strict_encode64 h
         %div( style="display: flex" )
           %grid

@@ -15,7 +15,9 @@ for LOCATION in l01_escape \
                 l10u_bunker \
                 l11_pripyat \
                 l12_stancia \
-                l12_stancia_2; do
+                l12_stancia_2 \
+                l12u_sarcofag \
+                l12u_control_monolith; do
   mkdir -p $LOCATION &&
   ruby parse.rb master/1/alife_$LOCATION.ltx > $LOCATION/1.yaml &&
   ruby parse.rb master/2/alife_$LOCATION.ltx > $LOCATION/2.yaml &&

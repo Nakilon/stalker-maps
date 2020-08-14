@@ -21,7 +21,11 @@ not_localized, *rest = [ALL, *ARGV[2,5].map(&YAML.method(:load_file))].map do |_
         (pp obj; fail) unless obj["custom_data"][0][1].is_a? Array
         (pp obj; fail) unless obj["custom_data"][0][1].size == 2
         (pp obj; fail) unless obj["custom_data"][0][1][0][/\Acommunity = \S+_box\S*\z/]
-        (pp obj; fail) unless obj["custom_data"][0][1][1][/\Aitems = af_[a-z_]+\z/]
+        case obj["custom_data"][0][1][1]
+        when /\Aitems = af_[a-z_]+\z/ ;
+        when "items = af_soul, 1, af_gold_fish, 1, af_night_star, 1" ;
+        else ; (pp obj; fail)
+        end
       when "respawn"
         (pp obj; fail) unless obj["custom_data"][0][1].is_a? Array
         (pp obj; fail) unless obj["custom_data"][0][1].size == 4
@@ -56,7 +60,7 @@ not_localized, *rest = [ALL, *ARGV[2,5].map(&YAML.method(:load_file))].map do |_
       when 1
         case obj["custom_data"][0][0]
         when "drop_box"
-          [[obj["custom_data"][0][1][1][/\S+$/], ->_,__,___{ "#{_} (#{___} #{obj["custom_data"][0][1][0][/\S+$/]})" }, true, 85]]
+          [[obj["custom_data"][0][1][1][/(?<= )af_[a-z]+/], ->_,__,___{ "#{_} (#{___} #{obj["custom_data"][0][1][0][/\S+$/]})" }, true, 85]]
         when "respawn"
           obj["custom_data"][0][1][0][/\S+$/].split(?,).grep(/af_/).map do |item|
             [item, ->_,__,___{ "#{_} (#{___} #{obj["name"]})" }, true, 85]

@@ -73,7 +73,7 @@ begin
 end until moved.zero?
 
 texts, xs, ys = names.map{ |_, text, _, xy| [text, xy[:x], xy[:y]] }.transpose
-image.image = image.image.composite texts, :over, x: xs, y: ys
+image.image = image.image.composite texts, :over, x: xs, y: ys if texts
 
 image.image.write_to_file "rendered/#{ARGV[1]}_anomalies.jpg", Q: 95
 
