@@ -19,6 +19,7 @@ short = {
   "gravi" => "G",
   "zharka_static" => "🔥",
   "burningfuzz" => "ዣ",
+  "teleport" => "0",
 }
 
 # data

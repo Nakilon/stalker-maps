@@ -1,5 +1,5 @@
-                 OPENSOURCED IT AS A SIGN THAT I BELIEVE THAT
-      S.T.A.L.K.E.R. RELATED MODDING AND OTHER DEVELOPMENT SHOULD BE OPEN
+              OPENSOURCED IT AS A SIGN THAT I BELIEVE THAT
+      S.T.A.L.K.E.R. MODDING AND RELATED DEVELOPMENT SHOULD BE OPEN
 
 ###############################################################################
 
