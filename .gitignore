@@ -12,10 +12,5 @@
 /l*_*/4.yaml
 /l*_*/5.yaml
 
-/bg_l*.jpg
-/bg_l01.png
-#/proto
-#/rendered
-#/preview
 *.jpg
 *.png

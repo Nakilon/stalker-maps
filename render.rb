@@ -103,7 +103,6 @@ Fixtures = {
     ALL: 400, NPCS: 39, MUTANTS: 0, ANOMALIES: 6, ARTIFACTS: 1,
     BG: "bg_l12u_s.jpg",
     FXA: 205, FXB: 5.25, FYA: 360, FYB: 6.25,
-    # TOP: 100, HEIGHT: 450,
   },
   "l12u_control_monolith" => {
     ALL: 250, NPCS: 30, MUTANTS: 3, ANOMALIES: 0, ARTIFACTS: 0,
