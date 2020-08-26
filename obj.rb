@@ -12,7 +12,7 @@ File.open("2.obj", "w") do |big2|
         # puts "group '#{name}' :: #{data.size} bytes :: #{lines.size} lines"
       end.each do |all, keyword, string|
         case keyword
-        when "v" ; target.file.puts "v #{string.split.map(&:to_i).join " "}" ; room_shift += 1
+        when "v" ; target.file.puts all ; room_shift += 1
         when "f" ; target.file.puts "f #{all.scan(/ \d+/).map{ |_| _.to_i + target.shift }.join " "}"
         when "vt", "vn", "vg", "vb"
         else ; fail keyword

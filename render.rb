@@ -78,8 +78,9 @@ Fixtures = {
   },
   "l10u_bunker" => {
     ALL: 300, NPCS: 30, MUTANTS: 3, ANOMALIES: 6, ARTIFACTS: 0,
-    BG: "bg_l10u.jpg",
-    FXA: 450, FXB: 5, FYA: 480, FYB: 7.5,
+    BG: "bg_l10u.png",
+    FXA: 663, FXB: 8.2, FYA: 523, FYB: 8.2,
+    LEFT: 50, WIDTH: 873
   },
   "l11_pripyat" => {
     ALL: 1000, NPCS: 90, MUTANTS: 33, ANOMALIES: 75, ARTIFACTS: 8,
@@ -155,10 +156,7 @@ module Render
       when "l12u_control_monolith"
         loaded.embed(0, 45, loaded.width, loaded.height + 45, background: loaded.shrink(loaded.width, loaded.height).getpoint(0, 0)).resize 2, vscale: 2, kernel: :lanczos2
       when "l10u_bunker"
-        a = loaded.crop 420, 47, 360, 550
-        b = loaded.crop 22, 60, 360, 537
-        a.new_from_image([180, 140, 140]).bandjoin(a.colourspace(:b_w)[0]).composite(
-        b.new_from_image([110, 130, 110]).bandjoin(b.colourspace(:b_w)[0]), :over).resize(2, vscale: 2, kernel: :nearest)
+        loaded.embed(0, 0, loaded.width, loaded.height, background: [0, 0, 0]).resize 1, vscale: 1, kernel: :lanczos2
       when "l12u_sarcofag"
         a = loaded.crop 430, 60, 350, 270
         b = loaded.crop 30, 60, 300, 270
