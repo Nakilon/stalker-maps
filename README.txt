@@ -1,17 +1,21 @@
-              OPENSOURCED IT AS A SIGN THAT I BELIEVE THAT
-      S.T.A.L.K.E.R. MODDING AND RELATED DEVELOPMENT SHOULD BE OPEN
+                 OPENSOURCED IT TO PROMOTE MY BELIEF THAT
+    S.T.A.L.K.E.R. MODDING AND RELATED DEVELOPMENT AND REVERSE ENGINEERING
+                      SHOULD BE OPEN AND ACCESSIBLE
 
-###############################################################################
+##############################################################################
 
 Required files that are not in git (images, quicksaves, 1.0006 ww gamedata):
 https://storage.googleapis.com/stalker-maps-heavy.nakilon.pro/
 
-Credits:
-* I took backgrounds from @dawnrazor73's amazing website
-* thanks to /u/Zyhgar25 for CSS hint
-* thanks to /u/plscome2brazil for NPC names hint
+Result: http://www.nakilon.pro/stalker.htm
+Screencast about all this: https://www.youtube.com/watch?v=_Wwj7mrhFPk
 
-###############################################################################
+Credits:
+* most of the background images are from @dawnrazor73's https://zsg.dk/
+* thanks to /u/Zyhgar25 for the CSS hint
+* thanks to /u/plscome2brazil for the NPC name localisation hint
+
+##############################################################################
 
 (the rest of this file are technical notes that initially were not supposed
  to be in a public README so you don't immediately have to understand them)
