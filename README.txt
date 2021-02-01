@@ -17,6 +17,26 @@ Credits:
 
 ##############################################################################
 
+Converting terrain to Wavefront OBJ on macOS:
+1. download the Windows XP ISO: https://archive.org/details/WinXPProSP3x86
+2. install VirtualBox, Windows, Guest Additions, attach gamedata folder
+3. download the converter.exe: https://github.com/revolucas/AXRToolset
+4. install VC++ 2015 Upd 3, 14.0.24212.0, md5=1b3d24a3e9c99e63391a53b9e5be5356:
+   https://www.reddit.com/r/stalker/comments/floemw/stalker_anomaly_not_launching/
+   https://www.itechtics.com/microsoft-visual-c-redistributable-versions-direct-download-links/
+   https://www.microsoft.com/en-us/download/details.aspx?id=53587
+   https://github.com/revolucas/AXRToolset/pull/8/files
+5. unpack: converter.exe -dir db1 -2947ww gamedata.db1
+6. download the MeshTool/OGFViewer tools:
+   https://xray-engine.org/index.php?title=OGFViewer
+   https://files.xray-engine.org/nattefrost/20131229.7z
+7. cd db1\levels\l05_bar
+   ..\..\..\MESHTOOL\WIN32\CONSOLE\parse_lev.exe 0 l05_bar.ogf
+8. cd ..\..\..
+   MESHTOOL\WIN32\CONSOLE\ogf2obj.exe db1\levels\l05_bar\l05_bar.ogf l05_bar.obj
+
+##############################################################################
+
 (the rest of this file are technical notes that initially were not supposed
  to be in a public README so you don't immediately have to understand them)
 
@@ -44,3 +64,15 @@ render_mutants.rb
 render_anomalies.rb
 render_artifacts.rb
 ^ the least outdated code ^
+
+$ rg -Np '(\S+).+' ~/_/GAMEDATA/l05_bar.obj -r '$1' | sort | uniq -c | sort -nr
+
+1674870 vt
+1674870 vn
+1674870 v
+1473702 f
+13512 #
+4504 usemtl
+4504 o
+4504 g
+   1 mtllib
