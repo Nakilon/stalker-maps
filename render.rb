@@ -102,14 +102,13 @@ Fixtures = {
   },
   "l12u_sarcofag" => {
     ALL: 400, NPCS: 39, MUTANTS: 0, ANOMALIES: 6, ARTIFACTS: 1,
-    BG: "bg_l12u_s.jpg",
-    FXA: 205, FXB: 5.25, FYA: 360, FYB: 6.25,
+    BG: "bg_l12u_s.png",
+    FXA: 322, FXB: 9.15, FYA: 429, FYB: 8.15,
   },
   "l12u_control_monolith" => {
     ALL: 250, NPCS: 30, MUTANTS: 3, ANOMALIES: 0, ARTIFACTS: 0,
-    BG: "bg_l12u_s.jpg",
-    FXA: 790, FXB: 7.4, FYA: 770, FYB: 8,
-    LEFT: 415, WIDTH: 370, TOP: 425, HEIGHT: 325,
+    BG: "bg_l12u_c.png",
+    FXA: 358, FXB: 7.85, FYA: 347, FYB: 7.5,
   },
 }
 
@@ -147,6 +146,8 @@ module Render
         loaded * 0.7
       when "l04u_labx18"
         loaded * [1, 0.85, 1]
+      when "l12u_sarcofag"
+        loaded.flatten.*([0.8, 0.6, 1]).resize 0.5, vscale: 0.5, kernel: :lanczos2
       when "l10_radar"
         loaded.embed(0, 50, loaded.width + 50, loaded.height + 50, background: loaded.shrink(loaded.width, loaded.height).getpoint(0, 0)) * [1.05, 0.8, 0.65]
       when "l03u_agr_underground"
@@ -154,17 +155,9 @@ module Render
       when "l08u_brainlab"
         loaded.embed(0, 0, loaded.width, loaded.height + 30, background: loaded.shrink(loaded.width, loaded.height).getpoint(0, 0))
       when "l12u_control_monolith"
-        loaded.embed(0, 45, loaded.width, loaded.height + 45, background: loaded.shrink(loaded.width, loaded.height).getpoint(0, 0)).resize 2, vscale: 2, kernel: :lanczos2
+        loaded.embed(20, 80, loaded.width + 40, loaded.height + 100).resize 0.5, vscale: 0.5, kernel: :lanczos2
       when "l10u_bunker"
         loaded.embed(0, 0, loaded.width, loaded.height, background: [0, 0, 0]).resize 1, vscale: 1, kernel: :lanczos2
-      when "l12u_sarcofag"
-        a = loaded.crop 430, 60, 350, 270
-        b = loaded.crop 30, 60, 300, 270
-        c = loaded.crop 0, 442, 300, 270
-        a.new_from_image([180, 140, 140]).bandjoin(a.colourspace(:b_w)[0]).composite( [
-        b.new_from_image([110, 130, 110]).bandjoin(b.colourspace(:b_w)[0]),
-        c.new_from_image([110, 110, 150]).bandjoin(c.colourspace(:b_w)[0]),
-        ], [:over, :over]).resize(2, vscale: 2, kernel: :nearest)
       when /\A(\d+)x(\d+)\z/
         Vips::Image.black $1.to_i, $2.to_i
       else

@@ -31,9 +31,10 @@ Converting terrain to Wavefront OBJ on macOS:
    https://xray-engine.org/index.php?title=OGFViewer
    https://files.xray-engine.org/nattefrost/20131229.7z
 7. cd db1\levels\l05_bar
-   ..\..\..\MESHTOOL\WIN32\CONSOLE\parse_lev.exe 0 l05_bar.ogf
+   ..\..\..\MESHTOOL\WIN32\CONSOLE\parse_lev.exe 0 ..\..\..\l05_bar.ogf
 8. cd ..\..\..
-   MESHTOOL\WIN32\CONSOLE\ogf2obj.exe db1\levels\l05_bar\l05_bar.ogf l05_bar.obj
+   MESHTOOL\WIN32\CONSOLE\ogf2obj.exe l05_bar.ogf l05_bar.obj
+9. ruby fix_obj.rb l05_bar.obj fixed.l05_bar.obj
 
 ##############################################################################
 
@@ -55,8 +56,7 @@ $ haml -q stalker.haml ../www-nakilon-pro/www.nakilon.pro/stalker.htm
 $ haml -q stalker-single-page.haml ../www-nakilon-pro/www.nakilon.pro/stalker-single-page.htm
 
 $ ruby debug.rb l04_darkvalley/1.yaml 4000x4000 l04_darkvalley/1.yaml l04_darkvalley/2.yaml l04_darkvalley/3.yaml l04_darkvalley/4.yaml l04_darkvalley/5.yaml 1500 5 1000 5 999 m_bloodsucker_e stalker bloodsucker_normal
-$ ruby render_dots.rb l04u_labx18/1.yaml l04u_labx18
-$ ruby render_dots.rb $LOCATION/1.yaml $LOCATION name agr_physic_object
+$ ruby render_dots.rb $LOCATION/1.yaml $LOCATION # name agr_physic_object
 
 v the most outdated code v
 render_npcs.rb

@@ -58,7 +58,7 @@ names = npcs.map do |npc|
   end
   # TODO: also render names that are just common for all saves, no matter if they have quest or not
   image.prepare_text(fx(x), fy(y), names_other.all?{ |other|
-    other.include?(npc["character_name"])
+    other.include? npc["character_name"]
   } ? strings.fetch(specific_character_name.fetch npc["specific_character"]).tap do |name|
     fail unless npc["character_name"] == name if "rus" == locale
   end : npc["name"], 80) if draw_name && npc["name"] != "esc_novice_attacker3"  # wtf?

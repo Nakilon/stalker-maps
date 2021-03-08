@@ -56,6 +56,13 @@ gsutil cp rendered/l06_rostok_mutants_eng.jpg gs://heavy.www.nakilon.pro/stalker
 gsutil cp rendered/l06_rostok_mutants_rus.jpg gs://heavy.www.nakilon.pro/stalker_v1/
 gsutil cp rendered/l06_rostok_npcs_rus.jpg gs://heavy.www.nakilon.pro/stalker_v2/
 gsutil cp rendered/l06_rostok_npcs_eng.jpg gs://heavy.www.nakilon.pro/stalker_v2/
+gsutil cp rendered/l12u_sarcofag_anomalies.jpg gs://heavy.www.nakilon.pro/stalker_v2/
+gsutil cp rendered/l12u_sarcofag_artifacts_eng.jpg gs://heavy.www.nakilon.pro/stalker_v2/
+gsutil cp rendered/l12u_sarcofag_artifacts_rus.jpg gs://heavy.www.nakilon.pro/stalker_v2/
+gsutil cp rendered/l12u_sarcofag_mutants_eng.jpg gs://heavy.www.nakilon.pro/stalker_v2/
+gsutil cp rendered/l12u_sarcofag_mutants_rus.jpg gs://heavy.www.nakilon.pro/stalker_v2/
+gsutil cp rendered/l12u_sarcofag_npcs_rus.jpg gs://heavy.www.nakilon.pro/stalker_v3/
+gsutil cp rendered/l12u_sarcofag_npcs_eng.jpg gs://heavy.www.nakilon.pro/stalker_v3/
 gsutil -m cp rendered/l07_military_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
 gsutil -m cp rendered/l08_yantar_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
 gsutil -m cp rendered/l08u_brainlab_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
@@ -63,5 +70,4 @@ gsutil -m cp rendered/l10_radar_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
 gsutil -m cp rendered/l10u_bunker_*.jpg gs://heavy.www.nakilon.pro/stalker_v2/
 gsutil -m cp rendered/l11_pripyat_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
 gsutil -m cp rendered/l12_stancia_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
-gsutil -m cp rendered/l12u_sarcofag_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
-gsutil -m cp rendered/l12u_control_monolith_*.jpg gs://heavy.www.nakilon.pro/stalker_v1/
+gsutil -m cp rendered/l12u_control_monolith_*.jpg gs://heavy.www.nakilon.pro/stalker_v2/
