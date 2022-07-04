@@ -7,13 +7,12 @@
 Required files that are not in git (images, quicksaves, 1.0006 ww gamedata):
 https://storage.googleapis.com/stalker-maps-heavy.nakilon.pro/
 
-Result: http://www.nakilon.pro/stalker.htm
+Result: https://storage.yandexcloud.net/www.nakilon.pro/stalker.htm
 Screencast about all this: https://www.youtube.com/watch?v=_Wwj7mrhFPk
 
 Credits:
 * most of the background images are from @dawnrazor73's https://zsg.dk/
 * thanks to /u/Zyhgar25 for the CSS hint
-* thanks to /u/plscome2brazil for the NPC name localisation hint
 
 ##############################################################################
 
